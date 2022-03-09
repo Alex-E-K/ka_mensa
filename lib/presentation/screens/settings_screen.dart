@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ka_mensa/presentation/widgets/settings/canteen_selector_button.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -10,8 +11,10 @@ class SettingsScreen extends StatelessWidget {
         title: const Text('Settings'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text('Settings'),
+      body: ListView(
+        children: const [
+          CanteenSelectorButton(),
+        ],
       ),
     );
   }
