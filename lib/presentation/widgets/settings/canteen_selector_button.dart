@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:ka_mensa/data/constants/canteens.dart';
+import 'package:ka_mensa/data/model/canteen_model.dart';
 import 'package:ka_mensa/presentation/widgets/spacer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CanteenSelectorButton extends StatelessWidget {
   const CanteenSelectorButton({Key? key}) : super(key: key);
@@ -7,7 +11,29 @@ class CanteenSelectorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () async {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        int selectedCanteenIndex = preferences.getInt('selectedCanteen') ?? 0;
+
+        CanteenModel selectedCanteen = canteens[selectedCanteenIndex];
+
+        showMaterialRadioPicker(
+            title: 'Select your canteen',
+            context: context,
+            items: canteens,
+            selectedItem: selectedCanteen,
+            onChanged: (value) async {
+              int newSelectedCanteenIndex =
+                  _getCanteenIndex(value as CanteenModel);
+
+              if (newSelectedCanteenIndex == -1) {
+                newSelectedCanteenIndex = selectedCanteenIndex;
+              }
+
+              await preferences.setInt(
+                  'selectedCanteen', newSelectedCanteenIndex);
+            });
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
@@ -22,5 +48,17 @@ class CanteenSelectorButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Searches in the list of [canteens] for the given [canteen] and returns its
+  /// index in the list if it exists, else -1.
+  int _getCanteenIndex(CanteenModel canteen) {
+    for (int i = 0; i < canteens.length; i++) {
+      if (canteens[i].id == canteen.id) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 }
