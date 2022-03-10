@@ -35,9 +35,4 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }
-
-  Future<int> _getSelectedCanteenIndex() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getInt('selectedCanteen') ?? 0;
-  }
 }
