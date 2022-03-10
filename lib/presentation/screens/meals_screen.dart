@@ -16,7 +16,7 @@ class MealsScreen extends StatefulWidget {
 
   List<Map<String, dynamic>> _dayMenus = [];
   List<String> _dates = [];
-  String _canteenName = 'Canteen name';
+  String _canteenName = 'Loading ...';
 
   @override
   State<MealsScreen> createState() => _MealsScreenState();
