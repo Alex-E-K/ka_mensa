@@ -32,7 +32,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
+  flutter_html: ^2.2.1
   flutter_material_pickers: ^3.1.2
+  html: ^0.15.0
+  http: ^0.13.4
   intl: ^0.17.0
   shared_preferences: ^2.0.13
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ka_mensa/presentation/router/app_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp(
@@ -33,5 +34,10 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
+  }
+
+  Future<int> _getSelectedCanteenIndex() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getInt('selectedCanteen') ?? 0;
   }
 }
