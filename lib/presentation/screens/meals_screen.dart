@@ -92,11 +92,7 @@ class _MealsScreenState extends State<MealsScreen> {
           } else if (state is CanteenLoadingState) {
             return loading();
           } else if (state is CanteenLoadingSuccessfulState) {
-            return Scaffold(
-              body: Center(
-                child: DayMenu(dayMenu: _dayMenus.elementAt(dayIndex)),
-              ),
-            );
+            return DayMenu(dayMenu: _dayMenus.elementAt(dayIndex));
           } else {
             return const Scaffold(
               body: Center(

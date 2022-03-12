@@ -9,17 +9,27 @@ class MenuCategoryHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          _headingText,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.merge(const TextStyle(decoration: TextDecoration.underline)),
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
+      child: Card(
+        margin: EdgeInsets.zero,
+        elevation: 5,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+          ),
         ),
-      ],
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Center(
+            child: Text(_headingText,
+                style: Theme.of(context).textTheme.titleMedium
+                // ?.merge(const TextStyle(decoration: TextDecoration.underline)),
+                ),
+          ),
+        ),
+      ),
     );
   }
 }
