@@ -37,7 +37,7 @@ class MenuAppbarHeader extends StatelessWidget {
           // splashColor: Colors.transparent,
           // highlightColor: Colors.transparent,
         ),
-        spacer(0, 15),
+        spacer(0, 8),
         Column(
           children: [
             Text(
@@ -54,7 +54,7 @@ class MenuAppbarHeader extends StatelessWidget {
                     ?.merge(const TextStyle(color: Colors.white))),
           ],
         ),
-        spacer(0, 15),
+        spacer(0, 8),
         IconButton(
           onPressed: _nextDayDisabled ? null : _nextDay,
           disabledColor: Colors.grey,

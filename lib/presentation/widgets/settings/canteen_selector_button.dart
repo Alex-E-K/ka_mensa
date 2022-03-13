@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
-import 'package:ka_mensa/data/constants/canteens.dart';
-import 'package:ka_mensa/data/model/canteen_model.dart';
-import 'package:ka_mensa/presentation/widgets/spacer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../data/constants/canteens.dart';
+import '../../../data/model/canteen_model.dart';
+import '../spacer.dart';
 
 class CanteenSelectorButton extends StatelessWidget {
   const CanteenSelectorButton({Key? key}) : super(key: key);
