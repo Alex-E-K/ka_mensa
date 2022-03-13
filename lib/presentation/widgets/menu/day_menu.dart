@@ -4,8 +4,11 @@ import 'package:ka_mensa/presentation/widgets/menu/specific_menu.dart';
 
 class DayMenu extends StatefulWidget {
   Map<String, dynamic> _dayMenu;
-  DayMenu({Key? key, required Map<String, dynamic> dayMenu})
+  String _role;
+  DayMenu(
+      {Key? key, required Map<String, dynamic> dayMenu, required String role})
       : _dayMenu = dayMenu,
+        _role = role,
         super(key: key) {
     //print(dayMenu);
   }
@@ -35,10 +38,12 @@ class _DayMenuState extends State<DayMenu> {
                 j < widget._dayMenu[categories.elementAt(i)].length;
                 j++) ...[
               SpecificMenu(
-                  specificMenu:
-                      widget._dayMenu[categories.elementAt(i)].elementAt(j),
-                  isLast:
-                      j == widget._dayMenu[categories.elementAt(i)].length - 1),
+                specificMenu:
+                    widget._dayMenu[categories.elementAt(i)].elementAt(j),
+                isLast:
+                    j == widget._dayMenu[categories.elementAt(i)].length - 1,
+                role: widget._role,
+              ),
             ]
           ]
         ],

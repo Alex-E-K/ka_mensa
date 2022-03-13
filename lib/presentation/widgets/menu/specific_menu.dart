@@ -5,17 +5,20 @@ import 'package:ka_mensa/presentation/widgets/spacer.dart';
 class SpecificMenu extends StatelessWidget {
   final Map<String, dynamic> _specificMenu;
   final bool _isLast;
+  final String _role;
   String _price = '';
   SpecificMenu(
       {Key? key,
       required Map<String, dynamic> specificMenu,
-      required bool isLast})
+      required bool isLast,
+      required String role})
       : _specificMenu = specificMenu,
         _isLast = isLast,
+        _role = role,
         super(key: key) {
-    if (_specificMenu['prices']['students'] != null) {
+    if (_specificMenu['prices'][_role] != null) {
       _price = NumberFormat('##0.00')
-          .format(_specificMenu['prices']['students'])
+          .format(_specificMenu['prices'][_role])
           .toString();
     } else {
       _price = '';

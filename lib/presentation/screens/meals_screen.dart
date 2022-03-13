@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ka_mensa/data/constants/canteens.dart';
+import 'package:ka_mensa/data/constants/roles.dart';
 import 'package:ka_mensa/data/repositories/canteen_repository.dart';
 import 'package:ka_mensa/logic/canteen_bloc/canteen_bloc.dart';
 import 'package:ka_mensa/logic/canteen_bloc/canteen_event.dart';
@@ -25,6 +26,7 @@ class _MealsScreenState extends State<MealsScreen> {
   List<Map<String, dynamic>> _dayMenus = [];
   List<String> _dates = [];
   String _canteenName = 'Loading ...';
+  String _roleName = 'students';
   int dayIndex = 0;
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
   bool previousDayDisabled = true;
@@ -67,6 +69,7 @@ class _MealsScreenState extends State<MealsScreen> {
             _dates = splitDates(state.menus);
             _dayMenus = splitDayMenus(state.menus);
             _getCanteenName();
+            _getRoleName();
             if (_dates.isEmpty) {
               previousDayDisabled = true;
               nextDayDisabled = true;
@@ -96,7 +99,10 @@ class _MealsScreenState extends State<MealsScreen> {
               canteenBloc.add(FetchCanteenMenusEvent());
               return loading();
             } else {
-              return DayMenu(dayMenu: _dayMenus.elementAt(dayIndex));
+              return DayMenu(
+                dayMenu: _dayMenus.elementAt(dayIndex),
+                role: _roleName,
+              );
             }
           } else {
             return const Scaffold(
@@ -138,6 +144,12 @@ class _MealsScreenState extends State<MealsScreen> {
   void _getCanteenName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _canteenName = canteens[preferences.getInt('selectedCanteen') ?? 0].name;
+  }
+
+  void _getRoleName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _roleName =
+        roles[preferences.getInt('selectedRole') ?? 0].name.toLowerCase() + 's';
   }
 
   List<Map<String, dynamic>> splitDayMenus(Map<String, dynamic> daysMap) {
