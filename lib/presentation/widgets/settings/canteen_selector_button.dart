@@ -38,7 +38,7 @@ class CanteenSelectorButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
-          title: Text('Select canteen'),
+          title: const Text('Select canteen'),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
