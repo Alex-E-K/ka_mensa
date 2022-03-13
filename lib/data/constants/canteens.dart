@@ -10,5 +10,5 @@ const List<CanteenModel> canteens = <CanteenModel>[
   CanteenModel('Humboldt-Gymnasium', '1462'),
   CanteenModel('Lessing-Gymnasium', '1500'),
   CanteenModel('SSD Schloss Grundschule', '1591'),
-  CanteenModel('Schulzentrum Gymn. Neureut', '1600'),
+  //CanteenModel('Schulzentrum Gymn. Neureut', '1600'),
 ];

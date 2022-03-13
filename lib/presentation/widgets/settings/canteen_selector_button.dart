@@ -19,6 +19,10 @@ class CanteenSelectorButton extends StatelessWidget {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         int selectedCanteenIndex = preferences.getInt('selectedCanteen') ?? 0;
 
+        if (selectedCanteenIndex >= canteens.length) {
+          selectedCanteenIndex = 0;
+        }
+
         CanteenModel selectedCanteen = canteens[selectedCanteenIndex];
 
         showMaterialRadioPicker(
