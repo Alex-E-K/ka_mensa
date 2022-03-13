@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:ka_mensa/data/constants/roles.dart';
 import 'package:ka_mensa/data/model/role_model.dart';
+import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../spacer.dart';
@@ -11,17 +12,25 @@ class PriceSelectorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final KLocalizations localizations = KLocalizations.of(context);
+
     return InkWell(
       onTap: () async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         int selectedRoleIndex = preferences.getInt('selectedRole') ?? 0;
 
-        RoleModel selectedRole = roles[selectedRoleIndex];
+        List<RoleModel> translatedRoles = translate(localizations);
+
+        RoleModel selectedRole = translatedRoles[selectedRoleIndex];
 
         showMaterialRadioPicker(
-            title: 'Select your role',
+            title: localizations.translate('settings.roleSelectorPane.title'),
+            confirmText: localizations
+                .translate('settings.roleSelectorPane.okButtonTitle'),
+            cancelText: localizations
+                .translate('settings.roleSelectorPane.cancelButtonTitle'),
             context: context,
-            items: roles,
+            items: translatedRoles,
             selectedItem: selectedRole,
             onChanged: (value) async {
               int newSelectedRoleIndex = _getRoleIndex(value as RoleModel);
@@ -36,7 +45,8 @@ class PriceSelectorButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
-          title: const Text('Select role'),
+          title:
+              Text(localizations.translate('settings.roleSelectorButtonTitle')),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -59,5 +69,18 @@ class PriceSelectorButton extends StatelessWidget {
     }
 
     return -1;
+  }
+
+  List<RoleModel> translate(KLocalizations localizations) {
+    List<RoleModel> translatedRoles = [];
+
+    for (int i = 0; i < roles.length; i++) {
+      RoleModel role = RoleModel(
+          localizations.translate('settings.roleSelectorPane.${roles[i].name}'),
+          roles[i].id);
+      translatedRoles.add(role);
+    }
+
+    return translatedRoles;
   }
 }

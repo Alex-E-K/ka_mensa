@@ -1,0 +1,42 @@
+{
+    "bottomNavigationBar": {
+        "menu": "Menus",
+        "settings": "Settings"
+    },
+    "settings": {
+        "title": "Settings",
+        "canteenSelectorButtonTitle": "Select canteen",
+        "canteenSelectorPane": {
+            "title": "Select your canteen",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "CANCEL"
+        },
+        "roleSelectorButtonTitle": "Select price",
+        "roleSelectorPane": {
+            "title": "Select your role",
+            "student": "Students",
+            "employee": "Employees",
+            "pupil": "Pupils",
+            "other": "Others",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "CANCEL"
+        },
+        "appearanceSelectorButtonTitle": "Appearance",
+        "appearanceSelectorPane": {
+            "title": "Select the appearance",
+            "system": "System",
+            "light": "Light",
+            "dark": "Dark",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "CANCEL"
+        },
+        "languageSelectorButtonTitle": "App language",
+        "languageSelectorPane": {
+            "title": "Select the language",
+            "german": "Deutsch",
+            "english": "English",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "CANCEL"
+        }
+    }
+}

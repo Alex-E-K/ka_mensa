@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/constants/canteens.dart';
@@ -11,6 +12,8 @@ class CanteenSelectorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final KLocalizations localizations = KLocalizations.of(context);
+
     return InkWell(
       onTap: () async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -19,7 +22,12 @@ class CanteenSelectorButton extends StatelessWidget {
         CanteenModel selectedCanteen = canteens[selectedCanteenIndex];
 
         showMaterialRadioPicker(
-            title: 'Select your canteen',
+            title:
+                localizations.translate('settings.canteenSelectorPane.title'),
+            confirmText: localizations
+                .translate('settings.canteenSelectorPane.okButtonTitle'),
+            cancelText: localizations
+                .translate('settings.canteenSelectorPane.cancelButtonTitle'),
             context: context,
             items: canteens,
             selectedItem: selectedCanteen,
@@ -38,7 +46,8 @@ class CanteenSelectorButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
-          title: const Text('Select canteen'),
+          title: Text(
+              localizations.translate('settings.canteenSelectorButtonTitle')),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
