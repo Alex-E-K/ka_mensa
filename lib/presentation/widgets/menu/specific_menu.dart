@@ -62,6 +62,7 @@ class SpecificMenu extends StatelessWidget {
                           ],
                         ),
                         if (!_specificMenu['notes'].isEmpty) ...[
+                          spacer(5, 0),
                           Row(
                             children: [
                               Flexible(
@@ -70,8 +71,12 @@ class SpecificMenu extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
-                                      ?.merge(const TextStyle(
-                                          color: Colors.black38)),
+                                      ?.merge(TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .caption
+                                              ?.color
+                                              ?.withOpacity(0.5))),
                                 ),
                                 flex: 15,
                               ),
