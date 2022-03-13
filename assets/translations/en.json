@@ -38,5 +38,21 @@
             "okButtonTitle": "OK",
             "cancelButtonTitle": "CANCEL"
         }
+    },
+    "menu": {
+        "canteenName": {
+            "loading": "Loading ...",
+            "No data available": "No data available",
+            "Mensa am Adenauerring": "Mensa am Adenauerring",
+            "Mensa Moltke": "Mensa Moltke",
+            "Mensa Erzbergerstraße": "Mensa Erzbergerstraße",
+            "Drais Gemeinschaftsschule": "Drais Gemeinschaftsschule",
+            "Fichte-Gymnasium": "Fichte-Gymnasium",
+            "Humboldt-Gymnasium": "Humboldt-Gymnasium",
+            "Lessing-Gymnasium": "Lessing-Gymnasium",
+            "SSD Schloss Grundschule": "SSD Schloss Grundschule",
+            "Schulzentrum Gymn. Neureut": "Schulzentrum Gymn. Neureut"
+        },
+        "error": "Error"
     }
 }

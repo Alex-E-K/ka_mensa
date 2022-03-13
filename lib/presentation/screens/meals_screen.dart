@@ -10,6 +10,7 @@ import 'package:ka_mensa/presentation/widgets/loading_widget.dart';
 import 'package:ka_mensa/presentation/widgets/menu/day_menu.dart';
 import 'package:ka_mensa/presentation/widgets/menu/menu_appbar_header.dart';
 import 'package:ka_mensa/presentation/widgets/menu/menu_category_heading.dart';
+import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../logic/canteen_bloc/canteen_state.dart';
@@ -25,7 +26,7 @@ class _MealsScreenState extends State<MealsScreen> {
   late CanteenBloc canteenBloc;
   List<Map<String, dynamic>> _dayMenus = [];
   List<String> _dates = [];
-  String _canteenName = 'Loading ...';
+  String _canteenName = 'loading';
   String _roleName = 'students';
   int dayIndex = 0;
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -41,11 +42,14 @@ class _MealsScreenState extends State<MealsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final KLocalizations localizations = KLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: MenuAppbarHeader(
           date: DateFormat('dd.MM.yyyy').format(DateTime.parse(date)),
-          canteenName: _canteenName,
+          canteenName:
+              localizations.translate('menu.canteenName.$_canteenName'),
           previousDay: _previousDay,
           nextDay: _nextDay,
           previousDayDisabled: previousDayDisabled,
@@ -105,9 +109,9 @@ class _MealsScreenState extends State<MealsScreen> {
               );
             }
           } else {
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: Text('Error'),
+                child: Text(localizations.translate('menu.error')),
               ),
             );
           }
