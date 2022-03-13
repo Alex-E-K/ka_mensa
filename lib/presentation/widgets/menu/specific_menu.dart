@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:ka_mensa/presentation/widgets/spacer.dart';
 
 class SpecificMenu extends StatelessWidget {
   final Map<String, dynamic> _specificMenu;
   final bool _isLast;
-  const SpecificMenu(
+  String _price = '';
+  SpecificMenu(
       {Key? key,
       required Map<String, dynamic> specificMenu,
       required bool isLast})
       : _specificMenu = specificMenu,
         _isLast = isLast,
-        super(key: key);
+        super(key: key) {
+    if (_specificMenu['prices']['students'] != null) {
+      _price = NumberFormat('##0.00')
+          .format(_specificMenu['prices']['students'])
+          .toString();
+    } else {
+      _price = '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +79,12 @@ class SpecificMenu extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text('${_specificMenu['prices']['students']}€'),
-                  )
+                  if (_price != '') ...[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text('${_price} €'),
+                    )
+                  ],
                 ],
               ),
             ],
