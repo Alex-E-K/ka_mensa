@@ -1,5 +1,7 @@
 import 'package:ka_mensa/data/model/canteen_model.dart';
 
+/// List which contains all supported canteens by the app. Future canteens can
+/// be added here at a later point.
 const List<CanteenModel> canteens = <CanteenModel>[
   CanteenModel('Mensa am Adenauerring', '31'),
   CanteenModel('Mensa Moltke', '32'),

@@ -5,6 +5,8 @@ import 'package:ka_mensa/data/constants/openmensa_api_url.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+/// Repository that fetches data from the API and returns a Map consisting all
+/// the necessary data that is needed to display the menus.
 class CanteenRepository {
   /// Calls the openmensa-API and returns a Map which contains all fetched
   /// canteen data sorted by date and category.
