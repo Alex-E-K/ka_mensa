@@ -15,8 +15,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../logic/canteen_bloc/canteen_state.dart';
 
+/// Class that manages the display of menus. It uses the [CanteenBloc] in order
+/// to display the menus, a loading screen or an error page depending on the
+/// state managed by the bloc.
 class MealsScreen extends StatefulWidget {
-  MealsScreen({Key? key}) : super(key: key);
+  const MealsScreen({Key? key}) : super(key: key);
 
   @override
   State<MealsScreen> createState() => _MealsScreenState();
@@ -33,6 +36,8 @@ class _MealsScreenState extends State<MealsScreen> {
   bool previousDayDisabled = true;
   bool nextDayDisabled = true;
 
+  /// Inits the UI by starting the fetch of data when the widget is drawn to the
+  /// screen the first time.
   @override
   void initState() {
     super.initState();
@@ -42,8 +47,10 @@ class _MealsScreenState extends State<MealsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Needed for localizing the UI.
     final KLocalizations localizations = KLocalizations.of(context);
 
+    // Actual screen that is visible to the user.
     return Scaffold(
       appBar: AppBar(
         title: MenuAppbarHeader(
@@ -120,6 +127,8 @@ class _MealsScreenState extends State<MealsScreen> {
     );
   }
 
+  /// Jumps a day before the current selected day if data is available for a
+  /// previous day, else jumps to the first available day.
   void _previousDay() {
     if (dayIndex <= 0) {
       dayIndex = 0;
@@ -129,6 +138,8 @@ class _MealsScreenState extends State<MealsScreen> {
     setDate();
   }
 
+  /// Jumps a day after the current selected day if data is available for a
+  /// later day, else jumps to the last available day.
   void _nextDay() {
     if (dayIndex >= _dates.length - 1) {
       dayIndex = _dates.length - 1;
@@ -138,6 +149,8 @@ class _MealsScreenState extends State<MealsScreen> {
     setDate();
   }
 
+  /// Disables and enables the buttons to jump between days and sets the display
+  /// date to the selected date.
   void setDate() {
     previousDayDisabled = dayIndex == 0;
     nextDayDisabled = dayIndex == _dates.length - 1;
@@ -145,17 +158,22 @@ class _MealsScreenState extends State<MealsScreen> {
     setState(() {});
   }
 
+  /// Loads the selected canteen from persistent storage.
   void _getCanteenName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _canteenName = canteens[preferences.getInt('selectedCanteen') ?? 0].name;
   }
 
+  /// Loads the selected role from persistent storage.
   void _getRoleName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _roleName =
         roles[preferences.getInt('selectedRole') ?? 0].name.toLowerCase() + 's';
   }
 
+  /// Splits the [daysMap] into unique [Map] which contain only meal data for a
+  /// specific date and returns a List of these maps in order to display only
+  /// the relevant information for the selected date.
   List<Map<String, dynamic>> splitDayMenus(Map<String, dynamic> daysMap) {
     List<Map<String, dynamic>> daysList = [];
     for (var day in daysMap.keys) {
@@ -164,6 +182,8 @@ class _MealsScreenState extends State<MealsScreen> {
     return daysList;
   }
 
+  /// Splits the [daysMap] into a list which only contains available dates as
+  /// elements.
   List<String> splitDates(Map<String, dynamic> daysMap) {
     List<String> dates = [];
     for (var date in daysMap.keys) {

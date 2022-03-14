@@ -7,23 +7,29 @@ import 'package:ka_mensa/presentation/widgets/spacer.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Class that manages the display and functionality of the language selector
+/// button on settings page
 class LanguageSelectorButton extends StatelessWidget {
   const LanguageSelectorButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Needed for localizing the UI.
     final KLocalizations localizations = KLocalizations.of(context);
 
     return InkWell(
       onTap: () async {
+        // Load the currently saved selected language
         SharedPreferences preferences = await SharedPreferences.getInstance();
         int selectedLanguageIndex = preferences.getInt('selectedLanguage') ?? 0;
 
+        // Translate the list of languages to the selected language
         List<LanguageModel> translatedLanguages = translate(localizations);
 
         LanguageModel selectedLanguage =
             translatedLanguages[selectedLanguageIndex];
 
+        // Show the list of available languages
         showMaterialRadioPicker(
             title:
                 localizations.translate('settings.languageSelectorPane.title'),
@@ -35,6 +41,8 @@ class LanguageSelectorButton extends StatelessWidget {
             items: translatedLanguages,
             selectedItem: selectedLanguage,
             onChanged: (value) async {
+              // If the new selection gets approved, save the new selection and
+              // display the app in the new selected language.
               int newSelectedLanguageIndex =
                   _getLanguageIndex(value as LanguageModel);
 
@@ -78,6 +86,8 @@ class LanguageSelectorButton extends StatelessWidget {
     return -1;
   }
 
+  /// Translates the list of given [languages] into the selected language and
+  /// returns the List of translated languages.
   List<LanguageModel> translate(KLocalizations localizations) {
     List<LanguageModel> translatedLanguages = [];
 

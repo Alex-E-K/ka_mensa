@@ -7,15 +7,20 @@ import '../../../data/constants/canteens.dart';
 import '../../../data/model/canteen_model.dart';
 import '../spacer.dart';
 
+/// Class that manages the display and functionality of the canteen selector
+/// button on settings page
 class CanteenSelectorButton extends StatelessWidget {
+  /// Standard constructor of the class
   const CanteenSelectorButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Needed for localizing the UI.
     final KLocalizations localizations = KLocalizations.of(context);
 
     return InkWell(
       onTap: () async {
+        // Load the currently saved selected canteen
         SharedPreferences preferences = await SharedPreferences.getInstance();
         int selectedCanteenIndex = preferences.getInt('selectedCanteen') ?? 0;
 
@@ -25,6 +30,7 @@ class CanteenSelectorButton extends StatelessWidget {
 
         CanteenModel selectedCanteen = canteens[selectedCanteenIndex];
 
+        // Show the list of available canteens
         showMaterialRadioPicker(
             title:
                 localizations.translate('settings.canteenSelectorPane.title'),
@@ -36,6 +42,7 @@ class CanteenSelectorButton extends StatelessWidget {
             items: canteens,
             selectedItem: selectedCanteen,
             onChanged: (value) async {
+              // If the new selection gets approved, save the new selection
               int newSelectedCanteenIndex =
                   _getCanteenIndex(value as CanteenModel);
 

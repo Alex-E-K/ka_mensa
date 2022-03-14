@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ka_mensa/presentation/widgets/spacer.dart';
 
+/// Class that manages the display of the [AppBar] used on the meals screen
 class MenuAppbarHeader extends StatelessWidget {
   final String _date;
   final String _canteenName;
@@ -9,6 +10,11 @@ class MenuAppbarHeader extends StatelessWidget {
   final bool _previousDayDisabled;
   final bool _nextDayDisabled;
 
+  /// Constructor of the class. Takes the [date] to display above the given
+  /// [canteenName]. Takes a [VoidCallback] [previousDay] and [nextDay] to
+  /// assign the forward and backwards buttons with and two [bool]s
+  /// [previousDayDisabled] and [nextDayDisabled] to enable or disable forward
+  /// and back buttons if necessary.
   const MenuAppbarHeader(
       {Key? key,
       required String date,
@@ -30,6 +36,7 @@ class MenuAppbarHeader extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // Backwards Button
         IconButton(
           onPressed: _previousDayDisabled ? null : _previousDay,
           disabledColor: Colors.grey,
@@ -38,6 +45,7 @@ class MenuAppbarHeader extends StatelessWidget {
           // highlightColor: Colors.transparent,
         ),
         spacer(0, 8),
+        // Title containing the date and the canteen name
         Column(
           children: [
             Text(
@@ -55,6 +63,7 @@ class MenuAppbarHeader extends StatelessWidget {
           ],
         ),
         spacer(0, 8),
+        // Forward button
         IconButton(
           onPressed: _nextDayDisabled ? null : _nextDay,
           disabledColor: Colors.grey,

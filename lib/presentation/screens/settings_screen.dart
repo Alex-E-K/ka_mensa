@@ -5,11 +5,13 @@ import 'package:ka_mensa/presentation/widgets/settings/price_selector_button.dar
 import 'package:ka_mensa/presentation/widgets/settings/theme_selector_button.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 
+/// Class that manages the display of the settings page.
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Needed for localizing the UI.
     final KLocalizations localizations = KLocalizations.of(context);
 
     return Scaffold(
@@ -19,10 +21,14 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: const [
+          // Canteen selector
           CanteenSelectorButton(),
+          // Price / Role selector
           PriceSelectorButton(),
           Divider(),
+          // Theme selector
           ThemeSelectorButton(),
+          // Language selector
           LanguageSelectorButton(),
         ],
       ),

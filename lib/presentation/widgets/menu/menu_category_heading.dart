@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+/// This class manages the display of a category heading
 class MenuCategoryHeading extends StatelessWidget {
   final String _headingText;
 
+  /// Constructor that takes the [headingText] that should be displayed
   const MenuCategoryHeading({Key? key, required String headingText})
       : _headingText = headingText,
         super(key: key);

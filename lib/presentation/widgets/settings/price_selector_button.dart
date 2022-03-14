@@ -7,22 +7,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../spacer.dart';
 
+/// Class that manages the display and functionality of the price / role selector
+/// button on settings page
 class PriceSelectorButton extends StatelessWidget {
   const PriceSelectorButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Needed for localizing the UI.
     final KLocalizations localizations = KLocalizations.of(context);
 
     return InkWell(
       onTap: () async {
+        // Load the currently saved selected role
         SharedPreferences preferences = await SharedPreferences.getInstance();
         int selectedRoleIndex = preferences.getInt('selectedRole') ?? 0;
 
+        // Translate the list of languages to the selected language
         List<RoleModel> translatedRoles = translate(localizations);
 
         RoleModel selectedRole = translatedRoles[selectedRoleIndex];
 
+        // Show the list of available roles
         showMaterialRadioPicker(
             title: localizations.translate('settings.roleSelectorPane.title'),
             confirmText: localizations
@@ -33,6 +39,7 @@ class PriceSelectorButton extends StatelessWidget {
             items: translatedRoles,
             selectedItem: selectedRole,
             onChanged: (value) async {
+              // If the new selection gets approved, save the new selection
               int newSelectedRoleIndex = _getRoleIndex(value as RoleModel);
 
               if (newSelectedRoleIndex == -1) {
@@ -71,6 +78,8 @@ class PriceSelectorButton extends StatelessWidget {
     return -1;
   }
 
+  /// Translates the list of given [roles] into the selected language and
+  /// returns the List of translated roles.
   List<RoleModel> translate(KLocalizations localizations) {
     List<RoleModel> translatedRoles = [];
 

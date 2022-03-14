@@ -8,23 +8,29 @@ import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Class that manages the display and functionality of the theme selector
+/// button on settings page
 class ThemeSelectorButton extends StatelessWidget {
   const ThemeSelectorButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final ThemeProvider _themeProvider = Provider.of<ThemeProvider>(context);
+    // Needed for localizing the UI.
     final KLocalizations localizations = KLocalizations.of(context);
 
     return InkWell(
       onTap: () async {
+        // Load the currently saved selected theme
         SharedPreferences preferences = await SharedPreferences.getInstance();
         int selectedThemeIndex = preferences.getInt('selectedTheme') ?? 0;
 
+        // Translate the list of languages to the selected language
         List<ThemeModel> translatedThemes = translate(localizations);
 
         ThemeModel selectedTheme = translatedThemes[selectedThemeIndex];
 
+        // Show the list of available themes
         showMaterialRadioPicker(
             title: localizations
                 .translate('settings.appearanceSelectorPane.title'),
@@ -36,6 +42,8 @@ class ThemeSelectorButton extends StatelessWidget {
             items: translatedThemes,
             selectedItem: selectedTheme,
             onChanged: (value) async {
+              // If the new selection gets approved, save the new selection and
+              // display the selected theme
               int newSelectedThemeIndex = _getThemeIndex(value as ThemeModel);
 
               if (newSelectedThemeIndex == -1) {
@@ -74,6 +82,8 @@ class ThemeSelectorButton extends StatelessWidget {
     return -1;
   }
 
+  /// Translates the list of given [themes] into the selected language and
+  /// returns the List of translated themes.
   List<ThemeModel> translate(KLocalizations localizations) {
     List<ThemeModel> translatedThemes = [];
 

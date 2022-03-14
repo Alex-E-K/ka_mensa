@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ka_mensa/presentation/widgets/spacer.dart';
 
+/// Class that manages the display of a specific menu
 class SpecificMenu extends StatelessWidget {
   final Map<String, dynamic> _specificMenu;
   final bool _isLast;
   final String _role;
   String _price = '';
+
+  /// Constructor that takes the [Map] of data to display, a [bool] [isLast]
+  /// that is used to change the design of the [Card] if it is and the [role]
+  /// the user selected in order to display the correct price.
   SpecificMenu(
       {Key? key,
       required Map<String, dynamic> specificMenu,
@@ -52,6 +57,7 @@ class SpecificMenu extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
+                        // Meal name
                         Row(
                           children: [
                             Flexible(
@@ -61,6 +67,7 @@ class SpecificMenu extends StatelessWidget {
                             const Spacer(),
                           ],
                         ),
+                        // Notes if they exist
                         if (!_specificMenu['notes'].isEmpty) ...[
                           spacer(5, 0),
                           Row(
@@ -87,6 +94,7 @@ class SpecificMenu extends StatelessWidget {
                       ],
                     ),
                   ),
+                  // Price if it is not empty
                   if (_price != '') ...[
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
