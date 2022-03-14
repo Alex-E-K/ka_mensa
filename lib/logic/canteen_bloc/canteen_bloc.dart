@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ka_mensa/data/repositories/canteen_repository.dart';
-import 'package:ka_mensa/logic/canteen_bloc/canteen_event.dart';
 
+import '../../data/repositories/canteen_repository.dart';
+import 'canteen_event.dart';
 import 'canteen_state.dart';
 
 /// Bloc that manages the State of canteen menu data and handles events which

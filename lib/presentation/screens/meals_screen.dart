@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:ka_mensa/data/constants/canteens.dart';
-import 'package:ka_mensa/data/constants/roles.dart';
-import 'package:ka_mensa/data/repositories/canteen_repository.dart';
-import 'package:ka_mensa/logic/canteen_bloc/canteen_bloc.dart';
-import 'package:ka_mensa/logic/canteen_bloc/canteen_event.dart';
-import 'package:ka_mensa/presentation/widgets/loading_widget.dart';
-import 'package:ka_mensa/presentation/widgets/menu/day_menu.dart';
-import 'package:ka_mensa/presentation/widgets/menu/menu_appbar_header.dart';
-import 'package:ka_mensa/presentation/widgets/menu/menu_category_heading.dart';
+import '../../data/constants/canteens.dart';
+import '../../data/constants/roles.dart';
+import '../../data/repositories/canteen_repository.dart';
+import '../../logic/canteen_bloc/canteen_bloc.dart';
+import '../../logic/canteen_bloc/canteen_event.dart';
+import '../widgets/loading_widget.dart';
+import '../widgets/menu/day_menu.dart';
+import '../widgets/menu/menu_appbar_header.dart';
+import '../widgets/menu/menu_category_heading.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

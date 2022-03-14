@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ka_mensa/data/constants/languages.dart';
-import 'package:ka_mensa/data/constants/supported_locales.dart';
-import 'package:ka_mensa/data/themes/dark_theme.dart';
-import 'package:ka_mensa/data/themes/light_theme.dart';
-import 'package:ka_mensa/logic/provider/theme_provider.dart';
-import 'package:ka_mensa/presentation/router/app_router.dart';
+import 'data/constants/languages.dart';
+import 'data/constants/supported_locales.dart';
+import 'data/themes/dark_theme.dart';
+import 'data/themes/light_theme.dart';
+import 'logic/provider/theme_provider.dart';
+import 'presentation/router/app_router.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

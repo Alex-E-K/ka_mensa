@@ -1,5 +1,5 @@
-import 'package:ka_mensa/data/constants/supported_locales.dart';
-import 'package:ka_mensa/data/model/language_model.dart';
+import 'supported_locales.dart';
+import '../model/language_model.dart';
 
 /// List which contains all supported languages by the app. Future languages can
 /// be added here at a later point while the [supportedLocales]-array has to be

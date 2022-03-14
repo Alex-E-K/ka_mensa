@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ka_mensa/data/model/theme_model.dart';
+import '../model/theme_model.dart';
 
 /// List which contains all the available Theming options
 /// Default options: dark and light theme - can be modified elsewhere - and a

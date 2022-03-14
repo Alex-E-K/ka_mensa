@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
-import 'package:ka_mensa/data/constants/languages.dart';
-import 'package:ka_mensa/data/constants/supported_locales.dart';
-import 'package:ka_mensa/data/model/language_model.dart';
-import 'package:ka_mensa/presentation/widgets/spacer.dart';
+import '../../../data/constants/languages.dart';
+import '../../../data/constants/supported_locales.dart';
+import '../../../data/model/language_model.dart';
+import '../spacer.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

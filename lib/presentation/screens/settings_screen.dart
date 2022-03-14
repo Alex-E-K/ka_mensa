@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ka_mensa/presentation/widgets/settings/canteen_selector_button.dart';
-import 'package:ka_mensa/presentation/widgets/settings/language_selector_button.dart';
-import 'package:ka_mensa/presentation/widgets/settings/price_selector_button.dart';
-import 'package:ka_mensa/presentation/widgets/settings/theme_selector_button.dart';
+import '../widgets/settings/canteen_selector_button.dart';
+import '../widgets/settings/language_selector_button.dart';
+import '../widgets/settings/price_selector_button.dart';
+import '../widgets/settings/theme_selector_button.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 
 /// Class that manages the display of the settings page.

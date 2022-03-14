@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ka_mensa/presentation/widgets/spacer.dart';
+import '../spacer.dart';
 
 /// Class that manages the display of the [AppBar] used on the meals screen
 class MenuAppbarHeader extends StatelessWidget {

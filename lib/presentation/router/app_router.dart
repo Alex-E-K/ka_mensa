@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ka_mensa/data/repositories/canteen_repository.dart';
-import 'package:ka_mensa/logic/canteen_bloc/canteen_bloc.dart';
+import '../../data/repositories/canteen_repository.dart';
+import '../../logic/canteen_bloc/canteen_bloc.dart';
 
 import '../screens/home_screen.dart';
 

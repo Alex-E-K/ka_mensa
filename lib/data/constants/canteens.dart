@@ -1,4 +1,4 @@
-import 'package:ka_mensa/data/model/canteen_model.dart';
+import '../model/canteen_model.dart';
 
 /// List which contains all supported canteens by the app. Future canteens can
 /// be added here at a later point.

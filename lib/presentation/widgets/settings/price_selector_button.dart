@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
-import 'package:ka_mensa/data/constants/roles.dart';
-import 'package:ka_mensa/data/model/role_model.dart';
+import '../../../data/constants/roles.dart';
+import '../../../data/model/role_model.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

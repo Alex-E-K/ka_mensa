@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ka_mensa/presentation/screens/meals_screen.dart';
-import 'package:ka_mensa/presentation/screens/settings_screen.dart';
+import 'meals_screen.dart';
+import 'settings_screen.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 
 /// Class that represents the first layer of the navigation stack. It contains

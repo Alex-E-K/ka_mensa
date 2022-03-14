@@ -1,4 +1,4 @@
-import 'package:ka_mensa/data/model/role_model.dart';
+import '../model/role_model.dart';
 
 /// List which contains all supported price roles by the app. Future roles can
 /// be added here at a later point.

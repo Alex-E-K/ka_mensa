@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ka_mensa/presentation/widgets/spacer.dart';
+import '../spacer.dart';
 
 /// Class that manages the display of a specific menu
 class SpecificMenu extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ka_mensa/presentation/widgets/menu/menu_category_heading.dart';
-import 'package:ka_mensa/presentation/widgets/menu/specific_menu.dart';
+import 'menu_category_heading.dart';
+import 'specific_menu.dart';
 
 /// Class that manages the display of a menu for a single date.
 class DayMenu extends StatefulWidget {
