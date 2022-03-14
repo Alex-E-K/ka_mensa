@@ -1,16 +1,26 @@
-# ka_mensa
+# KA_Mensa
 
-This app should list cantines and their meals in Karlsruhe. The project is intended to be used by KIT students, professors and guests and by students of some schools in Karlsruhe.
+This app should list supported canteens and their meals in Karlsruhe, Germany. The project is intended to be used by KIT students, professors and guests and by students of some schools in Karlsruhe.
 
-## Getting Started
+## Supported Canteens
 
-This project is a starting point for a Flutter application.
+- Mensa am Adenauerring
+- Mensa Moltke
+- Mensa Erzbergerstraße
+- Drais Gemeinschaftsschule
+- Fichte-Gymnasium
+- Humboldt-Gymnasium
+- Lessing-Gymnasium
+- SSD Schloss Grundschule
 
-A few resources to get you started if this is your first Flutter project:
+## Your canteen in Karlsruhe isn't supported?
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Make sure that your canteen is available in the [OpenMensa](https://openmensa.org) database. 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+If your canteen is not currently included in the [OpenMensa](https://openmensa.org) database, you can learn more about how to make your canteen available in the database [here](https://openmensa.org/contribute). 
+
+Then you can open a pull request and add the canteen at the appropriate place in the code.
+
+## You want a similar app for your city?
+
+Just fork the project and modify the list of supported canteens. Note that this project is licensed unter GNU General Public License 3 (GPL-3.0)
