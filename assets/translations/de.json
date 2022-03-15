@@ -1,0 +1,58 @@
+{
+    "bottomNavigationBar": {
+        "menu": "Speisepläne",
+        "settings": "Einstellungen"
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "canteenSelectorButtonTitle": "Kantine auswählen",
+        "canteenSelectorPane": {
+            "title": "Wähle deine Kantine aus",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "ABBRECHEN"
+        },
+        "roleSelectorButtonTitle": "Preis auswählen",
+        "roleSelectorPane": {
+            "title": "Wähle deine Rolle aus",
+            "student": "Studenten",
+            "employee": "Bedienstete",
+            "pupil": "Schüler",
+            "other": "Andere",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "ABBRECHEN"
+        },
+        "appearanceSelectorButtonTitle": "Erscheinungsbild",
+        "appearanceSelectorPane": {
+            "title": "Wähle das Aussehen aus",
+            "system": "System",
+            "light": "Hell",
+            "dark": "Dunkel",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "ABBRECHEN"
+        },
+        "languageSelectorButtonTitle": "App-Sprache auswählen",
+        "languageSelectorPane": {
+            "title": "Wähle die Sprache aus",
+            "german": "Deutsch",
+            "english": "English",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "ABBRECHEN"
+        }
+    },
+    "menu": {
+        "canteenName": {
+            "loading": "Lade ...",
+            "No data available": "Keine Daten vorhanden",
+            "Mensa am Adenauerring": "Mensa am Adenauerring",
+            "Mensa Moltke": "Mensa Moltke",
+            "Mensa Erzbergerstraße": "Mensa Erzbergerstraße",
+            "Drais Gemeinschaftsschule": "Drais Gemeinschaftsschule",
+            "Fichte-Gymnasium": "Fichte-Gymnasium",
+            "Humboldt-Gymnasium": "Humboldt-Gymnasium",
+            "Lessing-Gymnasium": "Lessing-Gymnasium",
+            "SSD Schloss Grundschule": "SSD Schloss Grundschule",
+            "Schulzentrum Gymn. Neureut": "Schulzentrum Gymn. Neureut"
+        },
+        "error": "Fehler"
+    }
+}
