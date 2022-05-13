@@ -47,5 +47,7 @@
 	<string>The app does not require access to the photo library.</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>
