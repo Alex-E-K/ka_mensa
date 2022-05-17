@@ -48,6 +48,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - DKImagePickerController/PhotoGallery (from `https://github.com/miguelpruivo/DKImagePickerController.git`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
@@ -57,12 +58,13 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - DKImagePickerController
     - DKPhotoGallery
     - SDWebImage
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  DKImagePickerController:
+    :git: https://github.com/miguelpruivo/DKImagePickerController.git
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
@@ -76,6 +78,11 @@ EXTERNAL SOURCES:
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
+CHECKOUT OPTIONS:
+  DKImagePickerController:
+    :commit: ded0926eb9fddf0bc03fa79d552b1cbd3537ce97
+    :git: https://github.com/miguelpruivo/DKImagePickerController.git
+
 SPEC CHECKSUMS:
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
@@ -88,6 +95,6 @@ SPEC CHECKSUMS:
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: a828e2889510bc94f106d000bfbf78ed753fda3d
 
 COCOAPODS: 1.11.2
