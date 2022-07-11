@@ -53,6 +53,11 @@
             "SSD Schloss Grundschule": "SSD Schloss Grundschule",
             "Schulzentrum Gymn. Neureut": "Schulzentrum Gymn. Neureut"
         },
-        "error": "Error"
+        "error": "Error",
+        "dateSelectorPane": {
+            "title": "Select a date",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "CANCEL"
+        }
     }
 }

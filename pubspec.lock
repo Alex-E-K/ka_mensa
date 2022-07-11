@@ -132,6 +132,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1"
+  flutter_date_pickers:
+    dependency: "direct main"
+    description:
+      name: flutter_date_pickers
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0"
   flutter_html:
     dependency: "direct main"
     description:

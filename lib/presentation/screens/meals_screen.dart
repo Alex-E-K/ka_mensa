@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
+import 'package:ka_mensa/presentation/widgets/menu/single_day_picker.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 import '../../data/constants/canteens.dart';
 import '../../data/constants/roles.dart';
@@ -34,6 +38,8 @@ class _MealsScreenState extends State<MealsScreen> {
   String _roleName = 'students';
   int dayIndex = 0;
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  DateTime selectedDate =
+      DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()));
   bool previousDayDisabled = true;
   bool nextDayDisabled = true;
   ScrollController scrollController = ScrollController(initialScrollOffset: 0);
@@ -55,14 +61,46 @@ class _MealsScreenState extends State<MealsScreen> {
     // Actual screen that is visible to the user.
     return Scaffold(
       appBar: AppBar(
-        title: MenuAppbarHeader(
-          date: DateFormat('dd.MM.yyyy').format(DateTime.parse(date)),
-          canteenName:
-              localizations.translate('menu.canteenName.$_canteenName'),
-          previousDay: _previousDay,
-          nextDay: _nextDay,
-          previousDayDisabled: previousDayDisabled,
-          nextDayDisabled: nextDayDisabled,
+        title: InkWell(
+          onTap: () {
+            List<DateTime> parsedDates = [];
+            for (String singleDate in _dates) {
+              parsedDates.add(DateTime.parse(singleDate));
+            }
+
+            selectedDate = DateTime.parse(date);
+
+            showMaterialResponsiveDialog(
+                title: localizations.translate('menu.dateSelectorPane.title'),
+                confirmText: localizations
+                    .translate('menu.dateSelectorPane.okButtonTitle'),
+                cancelText: localizations
+                    .translate('menu.dateSelectorPane.cancelButtonTitle'),
+                context: context,
+                onConfirmed: () {
+                  int newDayIndex = getDayIndex(selectedDate, parsedDates);
+                  if (newDayIndex == -1) {
+                    dayIndex = 0;
+                  } else {
+                    dayIndex = newDayIndex;
+                  }
+
+                  setDate();
+                },
+                child: SingleDayPicker(
+                    selectedDate: selectedDate,
+                    parsedDates: parsedDates,
+                    callback: updateSelectedDate));
+          },
+          child: MenuAppbarHeader(
+            date: DateFormat('dd.MM.yyyy').format(DateTime.parse(date)),
+            canteenName:
+                localizations.translate('menu.canteenName.$_canteenName'),
+            previousDay: _previousDay,
+            nextDay: _nextDay,
+            previousDayDisabled: previousDayDisabled,
+            nextDayDisabled: nextDayDisabled,
+          ),
         ),
         centerTitle: true,
         actions: [
@@ -135,6 +173,20 @@ class _MealsScreenState extends State<MealsScreen> {
         }),
       ),
     );
+  }
+
+  void updateSelectedDate(DateTime newDate) {
+    selectedDate = newDate;
+  }
+
+  int getDayIndex(DateTime day, List<DateTime> parsedDates) {
+    for (int i = 0; i < parsedDates.length; i++) {
+      if (day == parsedDates[i]) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 
   /// Switches between days based on the horizontal swipe direction
