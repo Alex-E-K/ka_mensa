@@ -5,6 +5,7 @@ import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 import 'package:ka_mensa/presentation/widgets/menu/single_day_picker.dart';
+import 'package:ka_mensa/presentation/widgets/spacer.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 import '../../data/constants/canteens.dart';
 import '../../data/constants/roles.dart';
@@ -171,8 +172,22 @@ class _MealsScreenState extends State<MealsScreen> {
             }
           } else {
             return Scaffold(
-              body: Center(
-                child: Text(localizations.translate('menu.error')),
+              body: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        localizations.translate('menu.error'),
+                        textAlign: TextAlign.center,
+                      ),
+                      spacer(25, 0),
+                      Text(localizations.translate('menu.error2'),
+                          textAlign: TextAlign.center),
+                    ],
+                  ),
+                ),
               ),
             );
           }

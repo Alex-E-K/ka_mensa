@@ -54,6 +54,7 @@
             "Schulzentrum Gymn. Neureut": "Schulzentrum Gymn. Neureut"
         },
         "error": "Error",
+        "error2": "The menu could not be loaded. Check your internet connection and try again. If the menu still does not load, the Openmensa API used is currently offline. Normally it will be back online after one day at the latest.",
         "dateSelectorPane": {
             "title": "Select a date",
             "okButtonTitle": "OK",
