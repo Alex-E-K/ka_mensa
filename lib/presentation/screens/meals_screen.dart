@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 import '../../data/constants/canteens.dart';
 import '../../data/constants/roles.dart';
 import '../../data/repositories/canteen_repository.dart';
@@ -110,9 +111,16 @@ class _MealsScreenState extends State<MealsScreen> {
               canteenBloc.add(FetchCanteenMenusEvent());
               return loading();
             } else {
-              return DayMenu(
-                dayMenu: _dayMenus.elementAt(dayIndex),
-                role: _roleName,
+              return SimpleGestureDetector(
+                onHorizontalSwipe: _onHorizontalSwipe,
+                swipeConfig: const SimpleSwipeConfig(
+                    horizontalThreshold: 40,
+                    swipeDetectionBehavior:
+                        SwipeDetectionBehavior.continuousDistinct),
+                child: DayMenu(
+                  dayMenu: _dayMenus.elementAt(dayIndex),
+                  role: _roleName,
+                ),
               );
             }
           } else {
@@ -125,6 +133,15 @@ class _MealsScreenState extends State<MealsScreen> {
         }),
       ),
     );
+  }
+
+  /// Switches between days based on the horizontal swipe direction
+  void _onHorizontalSwipe(SwipeDirection direction) {
+    if (direction == SwipeDirection.left) {
+      _nextDay();
+    } else {
+      _previousDay();
+    }
   }
 
   /// Jumps a day before the current selected day if data is available for a
