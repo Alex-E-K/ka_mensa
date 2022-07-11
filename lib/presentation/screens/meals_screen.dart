@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
+import 'package:ka_mensa/presentation/widgets/menu/single_day_picker.dart';
+import 'package:ka_mensa/presentation/widgets/spacer.dart';
+import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 import '../../data/constants/canteens.dart';
 import '../../data/constants/roles.dart';
 import '../../data/repositories/canteen_repository.dart';
@@ -33,8 +39,11 @@ class _MealsScreenState extends State<MealsScreen> {
   String _roleName = 'students';
   int dayIndex = 0;
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  DateTime selectedDate =
+      DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()));
   bool previousDayDisabled = true;
   bool nextDayDisabled = true;
+  ScrollController scrollController = ScrollController(initialScrollOffset: 0);
 
   /// Inits the UI by starting the fetch of data when the widget is drawn to the
   /// screen the first time.
@@ -53,14 +62,52 @@ class _MealsScreenState extends State<MealsScreen> {
     // Actual screen that is visible to the user.
     return Scaffold(
       appBar: AppBar(
-        title: MenuAppbarHeader(
-          date: DateFormat('dd.MM.yyyy').format(DateTime.parse(date)),
-          canteenName:
-              localizations.translate('menu.canteenName.$_canteenName'),
-          previousDay: _previousDay,
-          nextDay: _nextDay,
-          previousDayDisabled: previousDayDisabled,
-          nextDayDisabled: nextDayDisabled,
+        title: InkWell(
+          onTap: () {
+            List<DateTime> parsedDates = [];
+            for (String singleDate in _dates) {
+              parsedDates.add(DateTime.parse(singleDate));
+            }
+
+            selectedDate = DateTime.parse(date);
+
+            showMaterialResponsiveDialog(
+                title: localizations.translate('menu.dateSelectorPane.title'),
+                confirmText: localizations
+                    .translate('menu.dateSelectorPane.okButtonTitle'),
+                cancelText: localizations
+                    .translate('menu.dateSelectorPane.cancelButtonTitle'),
+                context: context,
+                onConfirmed: () {
+                  int newDayIndex = getDayIndex(selectedDate, parsedDates);
+                  if (newDayIndex == -1) {
+                    dayIndex = 0;
+                  } else {
+                    dayIndex = newDayIndex;
+                  }
+
+                  if (selectedDate != DateTime.parse(date)) {
+                    scrollController.animateTo(0,
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.linear);
+                  }
+
+                  setDate();
+                },
+                child: SingleDayPicker(
+                    selectedDate: selectedDate,
+                    parsedDates: parsedDates,
+                    callback: updateSelectedDate));
+          },
+          child: MenuAppbarHeader(
+            date: DateFormat('dd.MM.yyyy').format(DateTime.parse(date)),
+            canteenName:
+                localizations.translate('menu.canteenName.$_canteenName'),
+            previousDay: _previousDay,
+            nextDay: _nextDay,
+            previousDayDisabled: previousDayDisabled,
+            nextDayDisabled: nextDayDisabled,
+          ),
         ),
         centerTitle: true,
         actions: [
@@ -110,21 +157,69 @@ class _MealsScreenState extends State<MealsScreen> {
               canteenBloc.add(FetchCanteenMenusEvent());
               return loading();
             } else {
-              return DayMenu(
-                dayMenu: _dayMenus.elementAt(dayIndex),
-                role: _roleName,
+              return SimpleGestureDetector(
+                onHorizontalSwipe: _onHorizontalSwipe,
+                swipeConfig: const SimpleSwipeConfig(
+                    horizontalThreshold: 40,
+                    swipeDetectionBehavior:
+                        SwipeDetectionBehavior.continuousDistinct),
+                child: DayMenu(
+                  dayMenu: _dayMenus.elementAt(dayIndex),
+                  role: _roleName,
+                  scrollController: scrollController,
+                ),
               );
             }
           } else {
             return Scaffold(
-              body: Center(
-                child: Text(localizations.translate('menu.error')),
+              body: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        localizations.translate('menu.error'),
+                        textAlign: TextAlign.center,
+                      ),
+                      spacer(25, 0),
+                      Text(localizations.translate('menu.error2'),
+                          textAlign: TextAlign.center),
+                    ],
+                  ),
+                ),
               ),
             );
           }
         }),
       ),
     );
+  }
+
+  /// Updates the date to the selection from the date picker screen
+  void updateSelectedDate(DateTime newDate) {
+    selectedDate = newDate;
+  }
+
+  /// Returns the index of the given [day] within the list of available
+  /// [parsedDates]
+  int getDayIndex(DateTime day, List<DateTime> parsedDates) {
+    for (int i = 0; i < parsedDates.length; i++) {
+      if (day == parsedDates[i]) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /// Switches between days based on the horizontal swipe direction
+  void _onHorizontalSwipe(SwipeDirection direction) {
+    if (direction == SwipeDirection.left) {
+      _nextDay();
+    } else {
+      _previousDay();
+    }
   }
 
   /// Jumps a day before the current selected day if data is available for a
@@ -134,6 +229,8 @@ class _MealsScreenState extends State<MealsScreen> {
       dayIndex = 0;
     } else {
       dayIndex--;
+      scrollController.animateTo(0,
+          duration: const Duration(milliseconds: 100), curve: Curves.linear);
     }
     setDate();
   }
@@ -145,6 +242,8 @@ class _MealsScreenState extends State<MealsScreen> {
       dayIndex = _dates.length - 1;
     } else {
       dayIndex++;
+      scrollController.animateTo(0,
+          duration: const Duration(milliseconds: 100), curve: Curves.linear);
     }
     setDate();
   }
