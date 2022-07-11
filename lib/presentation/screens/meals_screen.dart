@@ -175,10 +175,13 @@ class _MealsScreenState extends State<MealsScreen> {
     );
   }
 
+  /// Updates the date to the selection from the date picker screen
   void updateSelectedDate(DateTime newDate) {
     selectedDate = newDate;
   }
 
+  /// Returns the index of the given [day] within the list of available
+  /// [parsedDates]
   int getDayIndex(DateTime day, List<DateTime> parsedDates) {
     for (int i = 0; i < parsedDates.length; i++) {
       if (day == parsedDates[i]) {
