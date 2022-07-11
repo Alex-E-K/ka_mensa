@@ -85,6 +85,12 @@ class _MealsScreenState extends State<MealsScreen> {
                     dayIndex = newDayIndex;
                   }
 
+                  if (selectedDate != DateTime.parse(date)) {
+                    scrollController.animateTo(0,
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.linear);
+                  }
+
                   setDate();
                 },
                 child: SingleDayPicker(
