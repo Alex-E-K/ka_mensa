@@ -35,14 +35,6 @@ class _DayMenuState extends State<DayMenu> {
   @override
   void initState() {
     super.initState();
-
-    /* WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget._scrollController.hasClients) {
-        widget._scrollController
-            .animateTo(0, duration: Duration(seconds: 1), curve: Curves.linear);
-      }
-    }); */
-
     categories = _countCategories(widget._dayMenu);
   }
 
