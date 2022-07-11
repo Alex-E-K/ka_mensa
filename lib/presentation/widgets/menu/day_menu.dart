@@ -6,14 +6,19 @@ import 'specific_menu.dart';
 class DayMenu extends StatefulWidget {
   Map<String, dynamic> _dayMenu;
   String _role;
+  ScrollController _scrollController;
 
   /// Constructor for the class. Takes the [dayMenu] to display from the meals
   /// screen and the [role] selected by the user in order to display the correct
   /// prices for the menus´.
   DayMenu(
-      {Key? key, required Map<String, dynamic> dayMenu, required String role})
+      {Key? key,
+      required Map<String, dynamic> dayMenu,
+      required String role,
+      required ScrollController scrollController})
       : _dayMenu = dayMenu,
         _role = role,
+        _scrollController = scrollController,
         super(key: key) {
     //print(dayMenu);
   }
@@ -30,6 +35,14 @@ class _DayMenuState extends State<DayMenu> {
   @override
   void initState() {
     super.initState();
+
+    /* WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget._scrollController.hasClients) {
+        widget._scrollController
+            .animateTo(0, duration: Duration(seconds: 1), curve: Curves.linear);
+      }
+    }); */
+
     categories = _countCategories(widget._dayMenu);
   }
 
@@ -37,6 +50,7 @@ class _DayMenuState extends State<DayMenu> {
   Widget build(BuildContext context) {
     //return Scaffold();
     return ListView(
+      controller: widget._scrollController,
       children: [
         for (int i = 0; i < categories.length; i++) ...[
           if (widget._dayMenu[categories.elementAt(i)] != null) ...[

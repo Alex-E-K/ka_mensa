@@ -36,6 +36,7 @@ class _MealsScreenState extends State<MealsScreen> {
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
   bool previousDayDisabled = true;
   bool nextDayDisabled = true;
+  ScrollController scrollController = ScrollController(initialScrollOffset: 0);
 
   /// Inits the UI by starting the fetch of data when the widget is drawn to the
   /// screen the first time.
@@ -120,6 +121,7 @@ class _MealsScreenState extends State<MealsScreen> {
                 child: DayMenu(
                   dayMenu: _dayMenus.elementAt(dayIndex),
                   role: _roleName,
+                  scrollController: scrollController,
                 ),
               );
             }
@@ -151,6 +153,8 @@ class _MealsScreenState extends State<MealsScreen> {
       dayIndex = 0;
     } else {
       dayIndex--;
+      scrollController.animateTo(0,
+          duration: const Duration(milliseconds: 100), curve: Curves.linear);
     }
     setDate();
   }
@@ -162,6 +166,8 @@ class _MealsScreenState extends State<MealsScreen> {
       dayIndex = _dates.length - 1;
     } else {
       dayIndex++;
+      scrollController.animateTo(0,
+          duration: const Duration(milliseconds: 100), curve: Curves.linear);
     }
     setDate();
   }
