@@ -16,13 +16,16 @@ class CanteenBloc extends Bloc<CanteenEvent, CanteenState> {
   }
 
   /// If the [FetchCanteenMenusEvent] is pushed, it tries to fetch data from the
-  /// API. If the fetch was successful, state changes to
-  /// [CanteenLoadingSuccessfulState] else to [CanteenErrorState].
+  /// API. If the fetch was successful and contains data, state changes to
+  /// [CanteenLoadingSuccessfulState], if fetch was successful but contains no
+  /// data, state changes to [CanteenLoadingEmptySuccessfulState] else to
+  /// [CanteenErrorState].
   void _onFetchCanteenMenuEvent(
       FetchCanteenMenusEvent event, Emitter<CanteenState> emit) async {
     emit(CanteenLoadingState());
     try {
       Map<String, dynamic> menus = await repository.getMenu();
+      print(menus);
       if (menus.isEmpty) {
         emit(CanteenLoadingEmptySuccessfulState());
       } else {
