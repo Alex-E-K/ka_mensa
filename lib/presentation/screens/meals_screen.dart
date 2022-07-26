@@ -152,6 +152,10 @@ class _MealsScreenState extends State<MealsScreen> {
             return loading();
           } else if (state is CanteenLoadingState) {
             return loading();
+          } else if (state is CanteenLoadingEmptySuccessfulState) {
+            return Center(
+              child: Text("No canteen data available"),
+            );
           } else if (state is CanteenLoadingSuccessfulState) {
             if (_dayMenus.isEmpty) {
               canteenBloc.add(FetchCanteenMenusEvent());

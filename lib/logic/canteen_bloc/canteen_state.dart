@@ -29,3 +29,5 @@ class CanteenErrorState extends CanteenState {
   /// displayed on screen.
   CanteenErrorState({required this.message});
 }
+
+class CanteenLoadingEmptySuccessfulState extends CanteenState {}

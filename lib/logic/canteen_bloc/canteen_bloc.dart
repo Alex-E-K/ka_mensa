@@ -23,7 +23,11 @@ class CanteenBloc extends Bloc<CanteenEvent, CanteenState> {
     emit(CanteenLoadingState());
     try {
       Map<String, dynamic> menus = await repository.getMenu();
-      emit(CanteenLoadingSuccessfulState(menus: menus));
+      if (menus.isEmpty) {
+        emit(CanteenLoadingEmptySuccessfulState());
+      } else {
+        emit(CanteenLoadingSuccessfulState(menus: menus));
+      }
     } catch (e) {
       emit(CanteenErrorState(message: e.toString()));
     }
