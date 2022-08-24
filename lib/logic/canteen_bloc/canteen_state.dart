@@ -29,3 +29,7 @@ class CanteenErrorState extends CanteenState {
   /// displayed on screen.
   CanteenErrorState({required this.message});
 }
+
+/// This class represents the state when fetching the data was successful, but
+/// no data is available.
+class CanteenLoadingEmptySuccessfulState extends CanteenState {}

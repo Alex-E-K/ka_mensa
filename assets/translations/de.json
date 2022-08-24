@@ -42,6 +42,7 @@
     "menu": {
         "canteenName": {
             "loading": "Lade ...",
+            "error": "Fehler",
             "No data available": "Keine Daten vorhanden",
             "Mensa am Adenauerring": "Mensa am Adenauerring",
             "Mensa Moltke": "Mensa Moltke",
@@ -55,6 +56,9 @@
         },
         "error": "Fehler",
         "error2": "Das Menü konnte nicht geladen werden. Überprüfe deine Internetverbindung und versuche es erneut. Falls das Menü nach wie vor nicht lädt, ist die verwendete Openmensa API zurzeit offline. Normalerweise ist diese nach spätestens einem Tag wieder online.",
+        "errorDay": "Für den ausgewählten Tag stehen keine Daten zur Verfügung",
+        "errorCanteen": "Für die ausgewählte Kantine stehen keine Daten zur Verfügung",
+        "errorCanteenHeader": "error",
         "dateSelectorPane": {
             "title": "Wähle ein Datum aus",
             "okButtonTitle": "OK",
