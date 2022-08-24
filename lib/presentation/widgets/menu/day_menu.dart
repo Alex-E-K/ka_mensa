@@ -40,7 +40,8 @@ class DayMenu extends StatefulWidget {
 class _DayMenuState extends State<DayMenu> {
   @override
   Widget build(BuildContext context) {
-    //return Scaffold();
+    // TODO: When theres no data for a day, display a text and not an empty screen
+
     return ListView(
       controller: widget._scrollController,
       children: [
