@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:ka_mensa/data/constants/kit_fallback_url.dart';
+import 'package:ka_mensa/data/constants/kit_notes_legend.dart';
 
 import '../constants/canteens.dart';
 import '../constants/openmensa_api_url.dart';
@@ -102,6 +103,13 @@ class CanteenRepository {
             .toList();
         List<String> translatedCategories = [];
 
+        for (int i = categories.length - 1; i >= 0; i--) {
+          if (menus[categories[i]][0]['nodata'] == true ||
+              menus[categories[i]].length == 0) {
+            categories.removeAt(i);
+          }
+        }
+
         for (int i = 0; i < categories.length; i++) {
           translatedCategories.add(_getKitCategoryFromLegend(
               apiLegendResponse, kitCanteenName, categories[i]));
@@ -118,7 +126,8 @@ class CanteenRepository {
                 : '${menus[categories[i]][j]['meal']} ${menus[categories[i]][j]['dish']}';
             specificMenu['category'] = translatedCategories[i];
             specificMenu['prices'] = _getPrices(menus, categories[i], j);
-            specificMenu['notes'] = "menu['notes']";
+            specificMenu['notes'] =
+                _createKitNotes(menus, categories[i], j, apiLegendResponse);
 
             category.add(specificMenu);
           }
@@ -204,5 +213,79 @@ class CanteenRepository {
         : null;
 
     return prices;
+  }
+
+  String _createKitNotes(dynamic menu, String category, int mealIndexInCategory,
+      http.Response response) {
+    String notes = '';
+    List<String> notesList = [];
+    List<dynamic> addKeysList =
+        menu[category][mealIndexInCategory]['add'].toList();
+    var apiAddKeys = jsonDecode(response.body)['legend'].keys.toList();
+
+    if (menu[category][mealIndexInCategory]['bio'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('bio')].name);
+    }
+    if (menu[category][mealIndexInCategory]['fish'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('fish')].name);
+    }
+    if (menu[category][mealIndexInCategory]['pork'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('pork')].name);
+    }
+    if (menu[category][mealIndexInCategory]['pork_aw'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('pork_aw')].name);
+    }
+    if (menu[category][mealIndexInCategory]['cow'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('cow')].name);
+    }
+    if (menu[category][mealIndexInCategory]['cow_aw'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('cow_aw')].name);
+    }
+    if (menu[category][mealIndexInCategory]['vegan'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('vegan')].name);
+    }
+    if (menu[category][mealIndexInCategory]['veg'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('veg')].name);
+    }
+    if (menu[category][mealIndexInCategory]['mensa_vit'] == true) {
+      notesList.add(kitNotesLegend[_getKitNotesLegendIndex('mensa_vit')].name);
+    }
+
+    for (int i = 0; i < addKeysList.length; i++) {
+      if (_checkIfListContains(apiAddKeys, addKeysList[i])) {
+        notesList.add(jsonDecode(response.body)['legend'][addKeysList[i]]);
+      } else {
+        if (_getKitNotesLegendIndex(addKeysList[i]) != -1) {
+          notesList.add(
+              kitNotesLegend[_getKitNotesLegendIndex(addKeysList[i])].name);
+        }
+      }
+    }
+
+    if (notesList.isEmpty) {
+      return '';
+    }
+
+    return notesList.toString();
+  }
+
+  int _getKitNotesLegendIndex(String key) {
+    for (int i = 0; i < kitNotesLegend.length; i++) {
+      if (kitNotesLegend[i].id == key) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  bool _checkIfListContains(List<dynamic> list, String key) {
+    for (int i = 0; i < list.length; i++) {
+      if (list[i] == key) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
