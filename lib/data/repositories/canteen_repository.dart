@@ -91,6 +91,7 @@ class CanteenRepository {
       canteenMenu = {};
       var unixDates =
           jsonDecode(apiResponse.body)[kitCanteenName].keys.toList();
+      unixDates = _stripUnixTimes(unixDates);
       List<String> dates = _convertUnixTimesToDateTime(unixDates);
 
       for (int k = 0; k < unixDates.length; k++) {
@@ -165,6 +166,23 @@ class CanteenRepository {
     }
 
     return -1;
+  }
+
+  List<String> _stripUnixTimes(dynamic unixTimes) {
+    List<String> unixDates = [];
+    DateTime now =
+        DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+
+    for (int i = 0; i < unixTimes.length; i++) {
+      DateTime unixTime = DateTime.parse(DateFormat('yyyy-MM-dd').format(
+          DateTime.fromMillisecondsSinceEpoch(int.parse(unixTimes[i]) * 1000,
+              isUtc: false)));
+      if (!unixTime.isBefore(now)) {
+        unixDates.add(unixTimes[i]);
+      }
+    }
+
+    return unixDates;
   }
 
   List<String> _convertUnixTimesToDateTime(dynamic unixTimes) {

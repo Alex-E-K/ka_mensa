@@ -121,6 +121,8 @@ class _MealsScreenState extends State<MealsScreen> {
       body: BlocListener<CanteenBloc, CanteenState>(
         listener: (context, state) {
           if (state is CanteenErrorState) {
+            _canteenName = localizations.translate('menu.errorCanteenHeader');
+
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is CanteenLoadingSuccessfulState) {
@@ -131,7 +133,7 @@ class _MealsScreenState extends State<MealsScreen> {
             if (_dates.isEmpty) {
               previousDayDisabled = true;
               nextDayDisabled = true;
-              _canteenName = 'No data available';
+              //_canteenName = 'No data available';
             } else {
               date = _dates[dayIndex];
               previousDayDisabled = dayIndex == 0;
@@ -144,6 +146,9 @@ class _MealsScreenState extends State<MealsScreen> {
             nextDayDisabled = true;
             dayIndex = 0;
             setState(() {});
+          } else if (state is CanteenLoadingEmptySuccessfulState) {
+            date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+            _getCanteenName();
           }
         },
         child:
@@ -157,8 +162,38 @@ class _MealsScreenState extends State<MealsScreen> {
           // TODO Create better Message when no data available
 
           else if (state is CanteenLoadingEmptySuccessfulState) {
-            return Center(
-              child: Text("No canteen data available"),
+            _getCanteenName();
+            return ListView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
+                  child: Card(
+                    color: Colors.red[800],
+                    margin: EdgeInsets.zero,
+                    elevation: 5,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
+                          bottomLeft: Radius.circular(8),
+                          bottomRight: Radius.circular(8)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                        child: Text(
+                            localizations.translate('menu.errorCanteen'),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleMedium
+                            // ?.merge(const TextStyle(decoration: TextDecoration.underline)),
+                            ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             );
           } else if (state is CanteenLoadingSuccessfulState) {
             if (_dayMenus.isEmpty) {
@@ -179,24 +214,38 @@ class _MealsScreenState extends State<MealsScreen> {
               );
             }
           } else {
-            return Scaffold(
-              body: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        localizations.translate('menu.error'),
-                        textAlign: TextAlign.center,
+            _canteenName = localizations.translate('menu.errorCanteenHeader');
+
+            return ListView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
+                  child: Card(
+                    color: Colors.red[800],
+                    margin: EdgeInsets.zero,
+                    elevation: 5,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
+                          bottomLeft: Radius.circular(8),
+                          bottomRight: Radius.circular(8)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                        child: Text(localizations.translate('menu.error2'),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleMedium
+                            // ?.merge(const TextStyle(decoration: TextDecoration.underline)),
+                            ),
                       ),
-                      spacer(25, 0),
-                      Text(localizations.translate('menu.error2'),
-                          textAlign: TextAlign.center),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                )
+              ],
             );
           }
         }),
