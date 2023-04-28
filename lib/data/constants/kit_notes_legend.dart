@@ -1,6 +1,33 @@
 import 'package:ka_mensa/data/model/kit_notes_model.dart';
 
 const List<KitNotesModel> kitNotesLegend = <KitNotesModel>[
+  KitNotesModel('mit Farbstoff', '1'),
+  KitNotesModel('mit Konservierungsstoff', '2'),
+  KitNotesModel('mit Antioxidationsmittel', '3'),
+  KitNotesModel('mit Geschmacksverstärker', '4'),
+  KitNotesModel('mit Phosphat', '5'),
+  KitNotesModel('Oberfläche gewachst', '6'),
+  KitNotesModel('geschwefelt', '7'),
+  KitNotesModel('Oliven geschwärzt', '8'),
+  KitNotesModel('mit Süßungsmittel', '9'),
+  KitNotesModel('kann bei übermäßigem Verzehr abführend wirken', '10'),
+  KitNotesModel('enthält eine Phenylalaninquelle', '11'),
+  KitNotesModel('kann Restalkohol enthalten', '12'),
+  KitNotesModel('aus Fleischstücken zusammengefügt', '14'),
+  KitNotesModel('mit kakaohaltiger Fettglasur', '15'),
+  KitNotesModel('aus Fischstücken zusammengefügt', '27'),
+  KitNotesModel(
+      'enthält regionales Schweinefleisch aus artgerechter Tierhaltung',
+      '/layout/icons/regionales-schweinefleisch.svg'),
+  KitNotesModel('MSC-zertifizierter Fisch', '/layout/icons/msc.svg'),
+  KitNotesModel('enthält Schweinefleisch', '/layout/icons/schweinefleisch.svg'),
+  KitNotesModel('enthält Rindfleisch', '/layout/icons/rindfleisch.svg'),
+  KitNotesModel('enthält regionales Rindfleisch aus artgerechter Tierhaltung',
+      '/layout/icons/regionales-rindfleisch.svg'),
+  KitNotesModel('veganes Gericht', '/layout/icons/veganes-gericht.svg'),
+  KitNotesModel(
+      'vegetarisches Gericht', '/layout/icons/vegetarisches-gericht.svg'),
+  KitNotesModel('MensaVital', '/layout/icons/mensavital.svg'),
   KitNotesModel(
       'enthält regionales Schweinefleisch aus artgerechter Tierhaltung',
       'pork_aw'),
@@ -11,7 +38,7 @@ const List<KitNotesModel> kitNotesLegend = <KitNotesModel>[
   KitNotesModel('enthält Rindfleisch', 'cow'),
   KitNotesModel(
       'enthält regionales Rindfleisch aus artgerechter Tierhaltung', 'cow_aw'),
-  KitNotesModel('veganes Gericht (ohne Fleischzusatz)', 'vegan'),
+  KitNotesModel('veganes Gericht', 'vegan'),
   KitNotesModel('vegetarisches Gericht', 'veg'),
   KitNotesModel('MensaVital', 'mensa_vit'),
   KitNotesModel('mit tierischem Lab ', 'LAB'),

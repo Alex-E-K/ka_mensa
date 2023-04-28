@@ -3,3 +3,6 @@
 const String swKaUrlCanteens =
     'https://www.sw-ka.de/en/json_interface/general/';
 const String swKaUrlMeals = 'https://www.sw-ka.de/json_interface/canteen/';
+
+const String swKaHtmlUrlMeals =
+    'https://www.sw-ka.de/de/hochschulgastronomie/speiseplan/';
