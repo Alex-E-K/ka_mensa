@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import '../../../data/constants/roles.dart';
 import '../../../data/model/role_model.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../spacer.dart';
@@ -14,9 +14,6 @@ class PriceSelectorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
-
     return InkWell(
       onTap: () async {
         // Load the currently saved selected role
@@ -24,17 +21,15 @@ class PriceSelectorButton extends StatelessWidget {
         int selectedRoleIndex = preferences.getInt('selectedRole') ?? 0;
 
         // Translate the list of languages to the selected language
-        List<RoleModel> translatedRoles = translate(localizations);
+        List<RoleModel> translatedRoles = translate();
 
         RoleModel selectedRole = translatedRoles[selectedRoleIndex];
 
         // Show the list of available roles
         showMaterialRadioPicker(
-            title: localizations.translate('settings.roleSelectorPane.title'),
-            confirmText: localizations
-                .translate('settings.roleSelectorPane.okButtonTitle'),
-            cancelText: localizations
-                .translate('settings.roleSelectorPane.cancelButtonTitle'),
+            title: tr('settings.roleSelectorPane.title'),
+            confirmText: tr('settings.roleSelectorPane.okButtonTitle'),
+            cancelText: tr('settings.roleSelectorPane.cancelButtonTitle'),
             context: context,
             items: translatedRoles,
             selectedItem: selectedRole,
@@ -52,8 +47,7 @@ class PriceSelectorButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
-          title:
-              Text(localizations.translate('settings.roleSelectorButtonTitle')),
+          title: Text(tr('settings.roleSelectorButtonTitle')),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -80,13 +74,12 @@ class PriceSelectorButton extends StatelessWidget {
 
   /// Translates the list of given [roles] into the selected language and
   /// returns the List of translated roles.
-  List<RoleModel> translate(KLocalizations localizations) {
+  List<RoleModel> translate() {
     List<RoleModel> translatedRoles = [];
 
     for (int i = 0; i < roles.length; i++) {
       RoleModel role = RoleModel(
-          localizations.translate('settings.roleSelectorPane.${roles[i].name}'),
-          roles[i].id);
+          tr('settings.roleSelectorPane.${roles[i].name}'), roles[i].id);
       translatedRoles.add(role);
     }
 

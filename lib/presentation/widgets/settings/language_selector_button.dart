@@ -4,8 +4,8 @@ import '../../../data/constants/languages.dart';
 import '../../../data/constants/supported_locales.dart';
 import '../../../data/model/language_model.dart';
 import '../spacer.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Class that manages the display and functionality of the language selector
 /// button on settings page
@@ -14,9 +14,6 @@ class LanguageSelectorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
-
     return InkWell(
       onTap: () async {
         // Load the currently saved selected language
@@ -24,19 +21,16 @@ class LanguageSelectorButton extends StatelessWidget {
         int selectedLanguageIndex = preferences.getInt('selectedLanguage') ?? 0;
 
         // Translate the list of languages to the selected language
-        List<LanguageModel> translatedLanguages = translate(localizations);
+        List<LanguageModel> translatedLanguages = translate();
 
         LanguageModel selectedLanguage =
             translatedLanguages[selectedLanguageIndex];
 
         // Show the list of available languages
         showMaterialRadioPicker(
-            title:
-                localizations.translate('settings.languageSelectorPane.title'),
-            confirmText: localizations
-                .translate('settings.languageSelectorPane.okButtonTitle'),
-            cancelText: localizations
-                .translate('settings.languageSelectorPane.cancelButtonTitle'),
+            title: tr('settings.languageSelectorPane.title'),
+            confirmText: tr('settings.languageSelectorPane.okButtonTitle'),
+            cancelText: tr('settings.languageSelectorPane.cancelButtonTitle'),
             context: context,
             items: translatedLanguages,
             selectedItem: selectedLanguage,
@@ -53,15 +47,13 @@ class LanguageSelectorButton extends StatelessWidget {
               await preferences.setInt(
                   'selectedLanguage', newSelectedLanguageIndex);
 
-              localizations
-                  .setLocale(languages[newSelectedLanguageIndex].locale);
+              context.setLocale(languages[newSelectedLanguageIndex].locale);
             });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
-          title: Text(
-              localizations.translate('settings.languageSelectorButtonTitle')),
+          title: Text(tr('settings.languageSelectorButtonTitle')),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -88,14 +80,12 @@ class LanguageSelectorButton extends StatelessWidget {
 
   /// Translates the list of given [languages] into the selected language and
   /// returns the List of translated languages.
-  List<LanguageModel> translate(KLocalizations localizations) {
+  List<LanguageModel> translate() {
     List<LanguageModel> translatedLanguages = [];
 
     for (int i = 0; i < languages.length; i++) {
-      LanguageModel language = LanguageModel(
-          languages[i].locale,
-          localizations
-              .translate('settings.languageSelectorPane.${languages[i].name}'));
+      LanguageModel language = LanguageModel(languages[i].locale,
+          tr('settings.languageSelectorPane.${languages[i].name}'));
       translatedLanguages.add(language);
     }
 

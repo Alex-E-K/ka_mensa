@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/constants/canteens.dart';
@@ -15,9 +15,6 @@ class CanteenSelectorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
-
     return InkWell(
       onTap: () async {
         // Load the currently saved selected canteen
@@ -32,12 +29,9 @@ class CanteenSelectorButton extends StatelessWidget {
 
         // Show the list of available canteens
         showMaterialRadioPicker(
-            title:
-                localizations.translate('settings.canteenSelectorPane.title'),
-            confirmText: localizations
-                .translate('settings.canteenSelectorPane.okButtonTitle'),
-            cancelText: localizations
-                .translate('settings.canteenSelectorPane.cancelButtonTitle'),
+            title: tr('settings.canteenSelectorPane.title'),
+            confirmText: tr('settings.canteenSelectorPane.okButtonTitle'),
+            cancelText: tr('settings.canteenSelectorPane.cancelButtonTitle'),
             context: context,
             items: canteens,
             selectedItem: selectedCanteen,
@@ -57,8 +51,7 @@ class CanteenSelectorButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
-          title: Text(
-              localizations.translate('settings.canteenSelectorButtonTitle')),
+          title: Text(tr('settings.canteenSelectorButtonTitle')),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

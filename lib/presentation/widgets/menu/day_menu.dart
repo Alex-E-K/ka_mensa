@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'menu_category_heading.dart';
 import 'specific_menu.dart';
 
@@ -40,8 +40,6 @@ class DayMenu extends StatefulWidget {
 class _DayMenuState extends State<DayMenu> {
   @override
   Widget build(BuildContext context) {
-    final KLocalizations localizations = KLocalizations.of(context);
-
     if (widget._dayMenu.isEmpty) {
       return ListView(
         controller: widget._scrollController,
@@ -62,7 +60,7 @@ class _DayMenuState extends State<DayMenu> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Center(
-                  child: Text(localizations.translate('menu.errorDay'),
+                  child: Text(tr('menu.errorDay'),
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleMedium
                       // ?.merge(const TextStyle(decoration: TextDecoration.underline)),

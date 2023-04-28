@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'meals_screen.dart';
 import 'settings_screen.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Class that represents the first layer of the navigation stack. It contains
 /// the [BottomNavigationBar] to switch between the menu and the settings pages
@@ -19,9 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
-
     // Screens to display when the appropriate [BottomNavigationBarItem] is
     // pressed.
     final screens = [
@@ -40,10 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
               icon: const Icon(Icons.restaurant_menu),
-              label: localizations.translate('bottomNavigationBar.menu')),
+              label: tr('bottomNavigationBar.menu')),
           BottomNavigationBarItem(
               icon: const Icon(Icons.settings),
-              label: localizations.translate('bottomNavigationBar.settings')),
+              label: tr('bottomNavigationBar.settings')),
         ],
       ),
     );

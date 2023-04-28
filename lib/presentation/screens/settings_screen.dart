@@ -3,7 +3,7 @@ import '../widgets/settings/canteen_selector_button.dart';
 import '../widgets/settings/language_selector_button.dart';
 import '../widgets/settings/price_selector_button.dart';
 import '../widgets/settings/theme_selector_button.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Class that manages the display of the settings page.
 class SettingsScreen extends StatelessWidget {
@@ -11,12 +11,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(localizations.translate('settings.title')),
+        title: Text(tr('settings.title')),
         centerTitle: true,
       ),
       body: ListView(

@@ -16,7 +16,7 @@ import '../widgets/loading_widget.dart';
 import '../widgets/menu/day_menu.dart';
 import '../widgets/menu/menu_appbar_header.dart';
 import '../widgets/menu/menu_category_heading.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../logic/canteen_bloc/canteen_state.dart';
@@ -56,9 +56,6 @@ class _MealsScreenState extends State<MealsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
-
     // Actual screen that is visible to the user.
     return Scaffold(
       appBar: AppBar(
@@ -72,11 +69,9 @@ class _MealsScreenState extends State<MealsScreen> {
             selectedDate = DateTime.parse(date);
 
             showMaterialResponsiveDialog(
-                title: localizations.translate('menu.dateSelectorPane.title'),
-                confirmText: localizations
-                    .translate('menu.dateSelectorPane.okButtonTitle'),
-                cancelText: localizations
-                    .translate('menu.dateSelectorPane.cancelButtonTitle'),
+                title: tr('menu.dateSelectorPane.title'),
+                confirmText: tr('menu.dateSelectorPane.okButtonTitle'),
+                cancelText: tr('menu.dateSelectorPane.cancelButtonTitle'),
                 context: context,
                 onConfirmed: () {
                   int newDayIndex = getDayIndex(selectedDate, parsedDates);
@@ -101,8 +96,7 @@ class _MealsScreenState extends State<MealsScreen> {
           },
           child: MenuAppbarHeader(
             date: DateFormat('dd.MM.yyyy').format(DateTime.parse(date)),
-            canteenName:
-                localizations.translate('menu.canteenName.$_canteenName'),
+            canteenName: tr('menu.canteenName.$_canteenName'),
             previousDay: _previousDay,
             nextDay: _nextDay,
             previousDayDisabled: previousDayDisabled,
@@ -121,7 +115,7 @@ class _MealsScreenState extends State<MealsScreen> {
       body: BlocListener<CanteenBloc, CanteenState>(
         listener: (context, state) {
           if (state is CanteenErrorState) {
-            _canteenName = localizations.translate('menu.errorCanteenHeader');
+            _canteenName = tr('menu.errorCanteenHeader');
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.message)));
@@ -183,8 +177,7 @@ class _MealsScreenState extends State<MealsScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Center(
-                        child: Text(
-                            localizations.translate('menu.errorCanteen'),
+                        child: Text(tr('menu.errorCanteen'),
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleMedium
                             // ?.merge(const TextStyle(decoration: TextDecoration.underline)),
@@ -214,7 +207,7 @@ class _MealsScreenState extends State<MealsScreen> {
               );
             }
           } else {
-            _canteenName = localizations.translate('menu.errorCanteenHeader');
+            _canteenName = tr('menu.errorCanteenHeader');
 
             return ListView(
               physics: NeverScrollableScrollPhysics(),
@@ -236,7 +229,7 @@ class _MealsScreenState extends State<MealsScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Center(
-                        child: Text(localizations.translate('menu.error2'),
+                        child: Text(tr('menu.error2'),
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleMedium
                             // ?.merge(const TextStyle(decoration: TextDecoration.underline)),

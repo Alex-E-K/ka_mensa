@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'data/constants/languages.dart';
 import 'data/constants/supported_locales.dart';
@@ -5,13 +6,13 @@ import 'data/themes/dark_theme.dart';
 import 'data/themes/light_theme.dart';
 import 'logic/provider/theme_provider.dart';
 import 'presentation/router/app_router.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Main method and starting point of the application
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   // Load the saved language
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -19,17 +20,28 @@ void main() async {
 
   Locale selectedLocale = languages[selectedLanguageIndex].locale;
 
-  // Run the app with the selected language
   runApp(
-    KLocalizations.asChangeNotifier(
-        locale: selectedLocale,
-        defaultLocale: supportedLocales[0],
-        supportedLocales: supportedLocales,
-        localizationsAssetsPath: 'assets/translations',
-        child: MyApp(
-          appRouter: AppRouter(),
-        )),
+    EasyLocalization(
+      supportedLocales: supportedLocales,
+      path: 'assets/translations',
+      fallbackLocale: supportedLocales[0],
+      child: MyApp(
+        appRouter: AppRouter(),
+      ),
+    ),
   );
+
+  // Run the app with the selected language
+  // runApp(
+  //   KLocalizations.asChangeNotifier(
+  //       locale: selectedLocale,
+  //       defaultLocale: supportedLocales[0],
+  //       supportedLocales: supportedLocales,
+  //       localizationsAssetsPath: 'assets/translations',
+  //       child: MyApp(
+  //         appRouter: AppRouter(),
+  //       )),
+  // );
 }
 
 /// Class that represents the entry point of the app. Here will the theme, the
@@ -46,7 +58,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
+    //final KLocalizations localizations = KLocalizations.of(context);
 
     return MultiProvider(
       providers: [
@@ -62,14 +74,9 @@ class MyApp extends StatelessWidget {
           themeMode: themeProvider.themeMode,
           theme: lightTheme,
           darkTheme: darkTheme,
-          locale: localizations.locale,
-          supportedLocales: localizations.supportedLocales,
-          localizationsDelegates: [
-            localizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
+          locale: context.locale,
+          supportedLocales: context.supportedLocales,
+          localizationsDelegates: context.localizationDelegates,
           onGenerateRoute: _appRouter.onGenerateRoute,
         );
       },

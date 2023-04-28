@@ -4,7 +4,7 @@ import '../../../data/constants/themes.dart';
 import '../../../data/model/theme_model.dart';
 import '../../../logic/provider/theme_provider.dart';
 import '../spacer.dart';
-import 'package:klocalizations_flutter/klocalizations_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,8 +16,6 @@ class ThemeSelectorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeProvider _themeProvider = Provider.of<ThemeProvider>(context);
-    // Needed for localizing the UI.
-    final KLocalizations localizations = KLocalizations.of(context);
 
     return InkWell(
       onTap: () async {
@@ -26,18 +24,15 @@ class ThemeSelectorButton extends StatelessWidget {
         int selectedThemeIndex = preferences.getInt('selectedTheme') ?? 0;
 
         // Translate the list of languages to the selected language
-        List<ThemeModel> translatedThemes = translate(localizations);
+        List<ThemeModel> translatedThemes = translate();
 
         ThemeModel selectedTheme = translatedThemes[selectedThemeIndex];
 
         // Show the list of available themes
         showMaterialRadioPicker(
-            title: localizations
-                .translate('settings.appearanceSelectorPane.title'),
-            confirmText: localizations
-                .translate('settings.appearanceSelectorPane.okButtonTitle'),
-            cancelText: localizations
-                .translate('settings.appearanceSelectorPane.cancelButtonTitle'),
+            title: tr('settings.appearanceSelectorPane.title'),
+            confirmText: tr('settings.appearanceSelectorPane.okButtonTitle'),
+            cancelText: tr('settings.appearanceSelectorPane.cancelButtonTitle'),
             context: context,
             items: translatedThemes,
             selectedItem: selectedTheme,
@@ -56,8 +51,7 @@ class ThemeSelectorButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListTile(
-          title: Text(localizations
-              .translate('settings.appearanceSelectorButtonTitle')),
+          title: Text(tr('settings.appearanceSelectorButtonTitle')),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -84,13 +78,12 @@ class ThemeSelectorButton extends StatelessWidget {
 
   /// Translates the list of given [themes] into the selected language and
   /// returns the List of translated themes.
-  List<ThemeModel> translate(KLocalizations localizations) {
+  List<ThemeModel> translate() {
     List<ThemeModel> translatedThemes = [];
 
     for (int i = 0; i < themes.length; i++) {
       ThemeModel theme = ThemeModel(
-          localizations
-              .translate('settings.appearanceSelectorPane.${themes[i].name}'),
+          tr('settings.appearanceSelectorPane.${themes[i].name}'),
           themes[i].id);
       translatedThemes.add(theme);
     }
