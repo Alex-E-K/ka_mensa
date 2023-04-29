@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ka_mensa/presentation/widgets/settings/data_sources_button.dart';
 import '../widgets/settings/canteen_selector_button.dart';
 import '../widgets/settings/language_selector_button.dart';
 import '../widgets/settings/price_selector_button.dart';
@@ -27,6 +28,8 @@ class SettingsScreen extends StatelessWidget {
           ThemeSelectorButton(),
           // Language selector
           LanguageSelectorButton(),
+          Divider(),
+          DataSourcesButton(),
         ],
       ),
     );

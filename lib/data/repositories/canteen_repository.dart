@@ -149,8 +149,6 @@ class CanteenRepository {
       }
     }
 
-    print(canteenMenu);
-
     return canteenMenu;
   }
 
@@ -184,7 +182,7 @@ class CanteenRepository {
           .attributes['value']!));
     }
 
-    // TODO REMOVE BEFORE PRODUCTION
+    // TODO COMMENT BEFORE PRODUCTION - Just for debugging
     //calendarWeeks = [18];
 
     // Get meals of all days and map them according to their date
@@ -456,8 +454,6 @@ class CanteenRepository {
         translatedNotes.add(translation);
       }
     }
-
-    //print(translatedNotes);
 
     return translatedNotes.toString();
   }
