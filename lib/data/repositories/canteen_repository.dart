@@ -185,7 +185,7 @@ class CanteenRepository {
     }
 
     // TODO REMOVE BEFORE PRODUCTION
-    calendarWeeks = [19];
+    //calendarWeeks = [18];
 
     // Get meals of all days and map them according to their date
     for (int i = 0; i < calendarWeeks.length; i++) {
@@ -206,7 +206,7 @@ class CanteenRepository {
       if (dates.isEmpty ||
           meals.isEmpty ||
           dates[0].children.length != meals.length) {
-        throw Exception('Error: Can\'t load menu');
+        continue;
       }
 
       dates = dates[0].children;
@@ -245,62 +245,6 @@ class CanteenRepository {
           Map<String, dynamic> prices = {};
 
           List<Element> icons = [];
-
-          if (dayMealsHtml[j]
-              .getElementsByClassName('bgp price_1')
-              .isNotEmpty) {
-            if (dayMealsHtml[j].getElementsByClassName('bgp price_1')[0].text ==
-                '') {
-              prices['students'] = null;
-            } else {
-              prices['students'] = double.parse(_convertHtmlPriceToMapping(
-                  dayMealsHtml[j]
-                      .getElementsByClassName('bgp price_1')[0]
-                      .text));
-            }
-          }
-
-          if (dayMealsHtml[j]
-              .getElementsByClassName('bgp price_2')
-              .isNotEmpty) {
-            if (dayMealsHtml[j].getElementsByClassName('bgp price_2')[0].text ==
-                '') {
-              prices['others'] = null;
-            } else {
-              prices['others'] = double.parse(_convertHtmlPriceToMapping(
-                  dayMealsHtml[j]
-                      .getElementsByClassName('bgp price_2')[0]
-                      .text));
-            }
-          }
-
-          if (dayMealsHtml[j]
-              .getElementsByClassName('bgp price_3')
-              .isNotEmpty) {
-            if (dayMealsHtml[j].getElementsByClassName('bgp price_3')[0].text ==
-                '') {
-              prices['employees'] = null;
-            } else {
-              prices['employees'] = double.parse(_convertHtmlPriceToMapping(
-                  dayMealsHtml[j]
-                      .getElementsByClassName('bgp price_3')[0]
-                      .text));
-            }
-          }
-
-          if (dayMealsHtml[j]
-              .getElementsByClassName('bgp price_4')
-              .isNotEmpty) {
-            if (dayMealsHtml[j].getElementsByClassName('bgp price_4')[0].text ==
-                '') {
-              prices['pupils'] = null;
-            } else {
-              prices['pupils'] = double.parse(_convertHtmlPriceToMapping(
-                  dayMealsHtml[j]
-                      .getElementsByClassName('bgp price_4')[0]
-                      .text));
-            }
-          }
 
           if (dayMealsHtml[j]
               .getElementsByClassName('first menu-title')
@@ -360,6 +304,66 @@ class CanteenRepository {
             }
           }
 
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_1')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_1')[0].text ==
+                '') {
+              prices['students'] = null;
+            } else {
+              prices['students'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_1')[0]
+                      .text));
+            }
+          }
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_2')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_2')[0].text ==
+                '') {
+              prices['others'] = null;
+            } else {
+              prices['others'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_2')[0]
+                      .text));
+            }
+          }
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_3')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_3')[0].text ==
+                '') {
+              prices['employees'] = null;
+            } else {
+              prices['employees'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_3')[0]
+                      .text));
+            }
+          }
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_4')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_4')[0].text ==
+                '') {
+              prices['pupils'] = null;
+            } else {
+              prices['pupils'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_4')[0]
+                      .text));
+            }
+          }
+
+          if (mealName == '') {
+            continue;
+          }
+
           explicitMeal['name'] = mealName;
           explicitMeal['category'] = category;
           explicitMeal['prices'] = prices;
@@ -373,7 +377,27 @@ class CanteenRepository {
       meals[key] = completeLineData;
     }
 
-    print(meals);
+    Map<String, List<String>> emptyLines = {};
+
+    for (String date in meals.keys) {
+      for (String line in meals[date].keys) {
+        if (meals[date][line].length == 0) {
+          if (emptyLines[date] == null) {
+            emptyLines[date] = [];
+          }
+          emptyLines[date]!.add(line);
+        }
+      }
+    }
+
+    for (int i = 0; i < emptyLines.keys.length; i++) {
+      for (int j = 0;
+          j < emptyLines[emptyLines.keys.elementAt(i)]!.length;
+          j++) {
+        meals[emptyLines.keys.elementAt(i)]
+            .remove(emptyLines[emptyLines.keys.elementAt(i)]![j]);
+      }
+    }
 
     return meals;
   }
