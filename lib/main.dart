@@ -14,34 +14,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  // Load the saved language
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  int selectedLanguageIndex = preferences.getInt('selectedLanguage') ?? 0;
-
-  Locale selectedLocale = languages[selectedLanguageIndex].locale;
-
   runApp(
     EasyLocalization(
       supportedLocales: supportedLocales,
       path: 'assets/translations',
-      fallbackLocale: supportedLocales[0],
+      fallbackLocale: supportedLocales[1],
       child: MyApp(
         appRouter: AppRouter(),
       ),
     ),
   );
-
-  // Run the app with the selected language
-  // runApp(
-  //   KLocalizations.asChangeNotifier(
-  //       locale: selectedLocale,
-  //       defaultLocale: supportedLocales[0],
-  //       supportedLocales: supportedLocales,
-  //       localizationsAssetsPath: 'assets/translations',
-  //       child: MyApp(
-  //         appRouter: AppRouter(),
-  //       )),
-  // );
 }
 
 /// Class that represents the entry point of the app. Here will the theme, the

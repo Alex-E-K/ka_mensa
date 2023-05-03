@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:html/dom.dart';
+import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 import 'package:ka_mensa/data/constants/kit_fallback_url.dart';
 import 'package:ka_mensa/data/constants/kit_notes_legend.dart';
@@ -19,6 +21,7 @@ class CanteenRepository {
     int selectedCanteenIndex = preferences.getInt('selectedCanteen') ?? 0;
     String canteenUrl = apiUrl + canteens[selectedCanteenIndex].id + '/days';
     int isKitCanteen = _checkIfKitCanteen(selectedCanteenIndex);
+    int isKitHtmlCanteen = _checkIfKitHtmlCanteen(selectedCanteenIndex);
     Map<String, dynamic> canteenMenu = {};
 
     // Get dates which contain menu data
@@ -80,10 +83,16 @@ class CanteenRepository {
       var apiResponse = await http.Client().get(Uri.parse(swKaUrlMeals));
 
       if (apiResponse.statusCode != 200) {
+        // TODO: HTML Parser einbauen
+        return _getKitMenuFromHtml(isKitHtmlCanteen);
+
         throw Exception(
             'Error: Connection failed (code ${apiResponse.statusCode})');
       }
       if (apiLegendResponse.statusCode != 200) {
+        // TODO: HTML Parser einbauen
+        return _getKitMenuFromHtml(isKitHtmlCanteen);
+
         throw Exception(
             'Error: Connection failed (code ${apiLegendResponse.statusCode})');
       }
@@ -143,6 +152,322 @@ class CanteenRepository {
     return canteenMenu;
   }
 
+  Future<Map<String, dynamic>> _getKitMenuFromHtml(int kitHtmlCanteen) async {
+    String mealUrl =
+        swKaHtmlUrlMeals + kitHtmlCanteens[kitHtmlCanteen].id + '/';
+
+    List<int> calendarWeeks = [];
+    Map<String, Element> mealDocuments = {};
+
+    Map<String, dynamic> meals = {};
+
+    var apiResponse = await http.Client().get(Uri.parse(mealUrl));
+    if (apiResponse.statusCode != 200) {
+      throw Exception(
+          'Error: Connection failed (code ${apiResponse.statusCode})');
+    }
+
+    Document document = parse(apiResponse.body);
+
+    if (document.getElementById('meal_interval')?.children == null) {
+      throw Exception('Error: Can\'t load menu');
+    }
+
+    for (int i = 0;
+        i < document.getElementById('meal_interval')!.children.length;
+        i++) {
+      calendarWeeks.add(int.parse(document
+          .getElementById('meal_interval')!
+          .children[i]
+          .attributes['value']!));
+    }
+
+    // TODO COMMENT BEFORE PRODUCTION - Just for debugging
+    //calendarWeeks = [18];
+
+    // Get meals of all days and map them according to their date
+    for (int i = 0; i < calendarWeeks.length; i++) {
+      String weekMealUrl = mealUrl + '?kw=' + calendarWeeks[i].toString();
+
+      var response = await http.Client().get(Uri.parse(weekMealUrl));
+      if (response.statusCode != 200) {
+        throw Exception(
+            'Error: Connection failed (code ${apiResponse.statusCode})');
+      }
+
+      Document weekMealDocument = parse(response.body);
+      List<Element> dates =
+          weekMealDocument.getElementsByClassName('canteen-day-nav');
+      List<Element> meals =
+          weekMealDocument.getElementsByClassName('canteen-day');
+
+      if (dates.isEmpty ||
+          meals.isEmpty ||
+          dates[0].children.length != meals.length) {
+        continue;
+      }
+
+      dates = dates[0].children;
+
+      for (int j = 0; j < dates.length; j++) {
+        mealDocuments[dates[j].children[0].attributes['rel']!] = meals[j];
+      }
+    }
+
+    for (String key in mealDocuments.keys) {
+      Map<String, dynamic> completeLineData = {};
+
+      List<Element> canteenLinesHtml = [];
+
+      if (mealDocuments[key]?.getElementsByClassName('mensatype_rows') !=
+          null) {
+        canteenLinesHtml =
+            mealDocuments[key]!.getElementsByClassName('mensatype_rows');
+      }
+
+      for (int i = 0; i < canteenLinesHtml.length; i++) {
+        String lineName = canteenLinesHtml[i].children[0].children[0].text;
+        List<Map<String, dynamic>> lineMeals = [];
+
+        List<Element> dayMealsHtml = canteenLinesHtml[i]
+            .getElementsByClassName('meal-detail-table')[0]
+            .children[0]
+            .children;
+
+        for (int j = 0; j < dayMealsHtml.length; j++) {
+          Map<String, dynamic> explicitMeal = {};
+
+          String mealName = '';
+          String notes = '';
+          String category = lineName;
+          Map<String, dynamic> prices = {};
+
+          List<Element> icons = [];
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('first menu-title')
+              .isNotEmpty) {
+            mealName = dayMealsHtml[j]
+                .getElementsByClassName('first menu-title')[0]
+                .children[0]
+                .text;
+
+            icons = dayMealsHtml[j].getElementsByClassName('mealicon_2');
+
+            if (dayMealsHtml[j]
+                    .getElementsByClassName('first menu-title')[0]
+                    .children
+                    .length ==
+                2) {
+              String originalNotes = dayMealsHtml[j]
+                  .getElementsByClassName('first menu-title')[0]
+                  .children[1]
+                  .text;
+              List<String> originalNotesArray = [];
+              originalNotes.runes.forEach((int rune) {
+                var symbol = String.fromCharCode(rune);
+                originalNotesArray.add(symbol);
+              });
+              if (originalNotes.length > 2) {
+                originalNotesArray.removeLast();
+                originalNotesArray.removeAt(0);
+              }
+
+              originalNotes = '';
+              for (int k = 0; k < originalNotesArray.length; k++) {
+                originalNotes = originalNotes + originalNotesArray[k];
+              }
+
+              for (int k = 0; k < icons.length; k++) {
+                if (icons[k].attributes['src'] != null) {
+                  originalNotes =
+                      originalNotes + ',' + icons[k].attributes['src']!;
+                }
+              }
+
+              originalNotes.runes.forEach((int rune) {
+                var symbol = String.fromCharCode(rune);
+                originalNotesArray.add(symbol);
+              });
+
+              originalNotesArray.insert(0, '[');
+              originalNotesArray.add(']');
+
+              originalNotes = '';
+              for (int k = 0; k < originalNotesArray.length; k++) {
+                originalNotes = originalNotes + originalNotesArray[k];
+              }
+
+              notes = _createKitHtmlNote(originalNotes);
+            }
+          }
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_1')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_1')[0].text ==
+                '') {
+              prices['students'] = null;
+            } else {
+              prices['students'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_1')[0]
+                      .text));
+            }
+          }
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_2')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_2')[0].text ==
+                '') {
+              prices['others'] = null;
+            } else {
+              prices['others'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_2')[0]
+                      .text));
+            }
+          }
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_3')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_3')[0].text ==
+                '') {
+              prices['employees'] = null;
+            } else {
+              prices['employees'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_3')[0]
+                      .text));
+            }
+          }
+
+          if (dayMealsHtml[j]
+              .getElementsByClassName('bgp price_4')
+              .isNotEmpty) {
+            if (dayMealsHtml[j].getElementsByClassName('bgp price_4')[0].text ==
+                '') {
+              prices['pupils'] = null;
+            } else {
+              prices['pupils'] = double.parse(_convertHtmlPriceToMapping(
+                  dayMealsHtml[j]
+                      .getElementsByClassName('bgp price_4')[0]
+                      .text));
+            }
+          }
+
+          if (mealName == '') {
+            continue;
+          }
+
+          explicitMeal['name'] = mealName;
+          explicitMeal['category'] = category;
+          explicitMeal['prices'] = prices;
+          explicitMeal['notes'] = notes;
+
+          lineMeals.add(explicitMeal);
+        }
+
+        completeLineData[lineName] = lineMeals;
+      }
+      meals[key] = completeLineData;
+    }
+
+    Map<String, List<String>> emptyLines = {};
+
+    for (String date in meals.keys) {
+      for (String line in meals[date].keys) {
+        if (meals[date][line].length == 0) {
+          if (emptyLines[date] == null) {
+            emptyLines[date] = [];
+          }
+          emptyLines[date]!.add(line);
+        }
+      }
+    }
+
+    for (int i = 0; i < emptyLines.keys.length; i++) {
+      for (int j = 0;
+          j < emptyLines[emptyLines.keys.elementAt(i)]!.length;
+          j++) {
+        meals[emptyLines.keys.elementAt(i)]
+            .remove(emptyLines[emptyLines.keys.elementAt(i)]![j]);
+      }
+    }
+
+    return meals;
+  }
+
+  String _convertHtmlPriceToMapping(String htmlPrice) {
+    List<String> characters = [];
+    String newPrice = '';
+
+    htmlPrice.runes.forEach((int rune) {
+      var symbol = String.fromCharCode(rune);
+      characters.add(symbol);
+    });
+
+    for (int i = 0; i < characters.length; i++) {
+      if (_checkIfStringIsNumber(characters[i])) {
+        newPrice = newPrice + characters[i];
+      } else if (characters[i] == ',') {
+        newPrice = newPrice + '.';
+      }
+    }
+
+    return newPrice;
+  }
+
+  bool _checkIfStringIsNumber(String maybeNumber) {
+    return RegExp(r'^[0-9]+$').hasMatch(maybeNumber);
+  }
+
+  String _createKitHtmlNote(String formattedText) {
+    if (formattedText.length < 2) {
+      return '';
+    }
+
+    List<String> characters = [];
+    String notes = '';
+    List<String> notesArr = [];
+    List<String> translatedNotes = [];
+
+    formattedText.runes.forEach((int rune) {
+      var symbol = String.fromCharCode(rune);
+      characters.add(symbol);
+    });
+
+    characters.removeLast();
+    characters.removeAt(0);
+
+    for (int i = 0; i < characters.length; i++) {
+      notes = notes + characters[i];
+    }
+
+    notesArr = notes.split(',');
+
+    for (int i = 0; i < notesArr.length; i++) {
+      String translation = _convertKitNotesAbbreviationToString(notesArr[i]);
+      if (translation != '') {
+        translatedNotes.add(translation);
+      }
+    }
+
+    return translatedNotes.toString();
+  }
+
+  String _convertKitNotesAbbreviationToString(String abbreviation) {
+    int index = _getKitNotesLegendIndex(abbreviation);
+
+    if (index == -1) {
+      return '';
+    }
+
+    return kitNotesLegend[index].name;
+  }
+
   /// Counts the amount of indiviual categories from the given json-object
   /// [dateMenu] and returns a [List] of Strings containing the names of all
   /// categories.
@@ -161,6 +486,17 @@ class CanteenRepository {
   int _checkIfKitCanteen(int selectedCanteenIndex) {
     for (int i = 0; i < kitCanteens.length; i++) {
       if (kitCanteens[i].canteenModel.id == canteens[selectedCanteenIndex].id) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  int _checkIfKitHtmlCanteen(int selectedCanteenIndex) {
+    for (int i = 0; i < kitCanteens.length; i++) {
+      if (kitHtmlCanteens[i].canteenModel.id ==
+          canteens[selectedCanteenIndex].id) {
         return i;
       }
     }

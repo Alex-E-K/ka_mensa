@@ -54,5 +54,11 @@
 		<string>en</string>
 		<string>de</string>
 	</array>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>The app does not require access to the camera.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The app does not require access to your location.</string>
 </dict>
 </plist>

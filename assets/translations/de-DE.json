@@ -37,6 +37,14 @@
             "english": "English",
             "okButtonTitle": "OK",
             "cancelButtonTitle": "ABBRECHEN"
+        },
+        "dataSourcesButtonTitle": "Datenquellen",
+        "dataSources": {
+            "title": "Datenquellen",
+            "openmensa": "OpenMensa",
+            "swKa": "Studierendenwerk Karlsruhe",
+            "okButtonTitle": "OK",
+            "cancelButtonTitle": "ABBRECHEN"
         }
     },
     "menu": {

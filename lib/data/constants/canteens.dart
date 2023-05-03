@@ -22,3 +22,11 @@ const List<CanteenKitModel> kitCanteens = <CanteenKitModel>[
   CanteenKitModel(CanteenModel('Mensa Moltke', '32'), "moltke"),
   CanteenKitModel(CanteenModel('Mensa Erzbergerstraße', '33'), "erzberger"),
 ];
+
+const List<CanteenKitModel> kitHtmlCanteens = <CanteenKitModel>[
+  CanteenKitModel(
+      CanteenModel('Mensa am Adenauerring', '31'), "mensa_adenauerring"),
+  CanteenKitModel(CanteenModel('Mensa Moltke', '32'), "mensa_moltke"),
+  CanteenKitModel(
+      CanteenModel('Mensa Erzbergerstraße', '33'), "mensa_erzberger"),
+];
